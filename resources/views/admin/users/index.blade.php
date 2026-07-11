@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 
-                <div class="overflow-x-auto border border-gray-200 rounded-md">
+                <div class="overflow-x-auto border border-gray-200 rounded-md min-h-[300px]">
                     <table class="min-w-full bg-white">
                         <thead>
                             <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -56,8 +56,16 @@
                                     <div class="text-xs text-gray-500">{{ $user->username }}</div>
                                 </td>
                                 <td class="py-3 px-4">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-{{ $user->role === 'admin' ? 'red' : ($user->role === 'guru' ? 'blue' : 'green') }}-100 text-{{ $user->role === 'admin' ? 'red' : ($user->role === 'guru' ? 'blue' : 'green') }}-800">
-                                        {{ ucfirst($user->role) }}
+                                    @php
+                                        $roleColor = match($user->role) {
+                                            'admin' => 'red',
+                                            'kepsek' => 'purple',
+                                            'guru' => 'blue',
+                                            default => 'green',
+                                        };
+                                    @endphp
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-{{ $roleColor }}-100 text-{{ $roleColor }}-800">
+                                        {{ $user->role === 'kepsek' ? 'Kepala Sekolah' : ucfirst($user->role) }}
                                     </span>
                                 </td>
                                 <td class="py-3 px-4">

@@ -404,6 +404,55 @@
                     Download Rapor
                 </a>
             @endif
+
+            @if (Auth::user()->role === 'kepsek')
+                <div class="px-3 mt-4 mb-2 text-xs font-semibold text-red-300 uppercase tracking-wider">
+                    Menu Kepala Sekolah
+                </div>
+                <a href="{{ route('kepsek.dashboard') }}" class="{{ request()->routeIs('kepsek.dashboard') ? 'bg-red-800 border-l-4 border-white text-white' : 'border-l-4 border-transparent hover:bg-red-800 hover:text-white text-red-100' }} group flex items-center px-3 py-2 text-sm font-medium transition-colors">
+                    <svg class="mr-3 flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    Dashboard Kepsek
+                </a>
+                
+                <!-- Monitoring -->
+                <div x-data="{ open: {{ request()->routeIs('kepsek.monitoring.*') ? 'true' : 'false' }} }" class="space-y-1">
+                    <button @click="open = !open" class="{{ request()->routeIs('kepsek.monitoring.*') ? 'bg-red-800 border-l-4 border-white text-white' : 'border-l-4 border-transparent text-red-100 hover:bg-red-800 hover:text-white' }} group w-full flex items-center px-3 py-2 text-sm font-medium transition-colors focus:outline-none">
+                        <svg class="mr-3 flex-shrink-0 h-5 w-5 text-red-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span class="flex-1 text-left">Monitoring Data</span>
+                        <svg :class="{'rotate-90 text-white': open, 'text-red-200': !open}" class="ml-3 flex-shrink-0 h-5 w-5 transform transition-colors ease-in-out duration-150" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div x-show="open" x-cloak class="space-y-1" style="display: none;">
+                        <a href="{{ route('kepsek.monitoring.guru') }}" class="{{ request()->routeIs('kepsek.monitoring.guru') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Guru</a>
+                        <a href="{{ route('kepsek.monitoring.siswa') }}" class="{{ request()->routeIs('kepsek.monitoring.siswa') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Siswa</a>
+                        <a href="{{ route('kepsek.monitoring.rombel') }}" class="{{ request()->routeIs('kepsek.monitoring.rombel') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Rombel (Kelas)</a>
+                    </div>
+                </div>
+
+                <!-- Laporan -->
+                <div x-data="{ open: {{ request()->routeIs('kepsek.laporan.*') ? 'true' : 'false' }} }" class="space-y-1">
+                    <button @click="open = !open" class="{{ request()->routeIs('kepsek.laporan.*') ? 'bg-red-800 border-l-4 border-white text-white' : 'border-l-4 border-transparent text-red-100 hover:bg-red-800 hover:text-white' }} group w-full flex items-center px-3 py-2 text-sm font-medium transition-colors focus:outline-none">
+                        <svg class="mr-3 flex-shrink-0 h-5 w-5 text-red-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span class="flex-1 text-left">Laporan Hasil Belajar</span>
+                        <svg :class="{'rotate-90 text-white': open, 'text-red-200': !open}" class="ml-3 flex-shrink-0 h-5 w-5 transform transition-colors ease-in-out duration-150" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div x-show="open" x-cloak class="space-y-1" style="display: none;">
+                        <a href="{{ route('kepsek.laporan.leger') }}" class="{{ request()->routeIs('kepsek.laporan.leger') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Leger Rapor</a>
+                        <a href="{{ route('kepsek.laporan.rapor') }}" class="{{ request()->routeIs('kepsek.laporan.rapor*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Nilai Rapor Akademik</a>
+                        <a href="{{ route('kepsek.laporan.rapor_p5') }}" class="{{ request()->routeIs('kepsek.laporan.rapor_p5*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Rapor P5</a>
+                    </div>
+                </div>
+            @endif
         </nav>
     </div>
 

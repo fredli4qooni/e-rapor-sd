@@ -55,14 +55,16 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users,username',
-            'role' => 'required|in:admin,guru,siswa',
+            'role' => 'required|in:admin,guru,siswa,kepsek',
             'password' => 'required|string|min:6',
         ]);
+
+        $email = str_contains($request->username, '@') ? $request->username : $request->username . '@erapor.local';
 
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
-            'email' => $request->username . '@erapor.local',
+            'email' => $email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'is_active' => true,

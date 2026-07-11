@@ -34,15 +34,19 @@
 </head>
 <body>
     @php
-        $kelompok = \App\Models\P5Kelompok::where('rombel_id', $rombel->id)->first();
-        $proyeks = $kelompok ? $kelompok->proyeks()->with(['tema', 'subElemens.elemen.dimensi'])->get() : collect();
         $semesterAktif = \App\Models\Semester::where('is_aktif', true)->first();
+        $firstSiswa = $siswas->first();
+        $kelompok = $firstSiswa ? \App\Models\P5Kelompok::whereHas('siswas', function($q) use ($firstSiswa) {
+            $q->where('siswas.id', $firstSiswa->id);
+        })->where('semester_id', $semesterAktif ? $semesterAktif->id : null)->first() : null;
+        $proyeks = $kelompok ? $kelompok->proyeks()->with(['tema', 'targetSubElemens.elemen.dimensi'])->get() : collect();
     @endphp
 
     @foreach($siswas as $index => $siswa)
         @php
             $nilais = \App\Models\P5Nilai::where('siswa_id', $siswa->id)->get()->keyBy('sub_elemen_id');
-            $catatanP5 = \App\Models\P5Catatan::where('siswa_id', $siswa->id)->where('rombel_id', $rombel->id)->first();
+            $proyekIds = $proyeks->pluck('id')->toArray();
+            $catatanP5 = \App\Models\P5Catatan::where('siswa_id', $siswa->id)->whereIn('p5_proyek_id', $proyekIds)->first();
         @endphp
 
         <!-- KOP SEKOLAH -->
@@ -160,7 +164,7 @@
                         </tr>
                         @php
                             // Group by elemen
-                            $subElemensByElemen = $proyek->subElemens->groupBy('elemen_id');
+                            $subElemensByElemen = $proyek->targetSubElemens->groupBy('elemen_id');
                         @endphp
                         @foreach($subElemensByElemen as $elemenId => $subElemens)
                             @php $elemen = $subElemens->first()->elemen; @endphp

@@ -12,6 +12,7 @@ Route::get('/dashboard', function () {
     if ($user->role === 'admin') return redirect()->route('admin.dashboard');
     if ($user->role === 'guru') return redirect()->route('guru.dashboard');
     if ($user->role === 'siswa') return redirect()->route('siswa.dashboard');
+    if ($user->role === 'kepsek') return redirect()->route('kepsek.dashboard');
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -344,6 +345,30 @@ Route::middleware(['auth', 'can:guru'])->prefix('wali-kelas')->name('walikelas.'
         Route::get('cetak', [\App\Http\Controllers\WaliKelas\TranskripIjazahController::class, 'cetak'])->name('cetak');
         Route::get('cetak-pdf/{siswa_id?}', [\App\Http\Controllers\WaliKelas\TranskripIjazahController::class, 'generatePdf'])->name('generate_pdf');
         Route::post('toggle-publikasi', [\App\Http\Controllers\WaliKelas\TranskripIjazahController::class, 'togglePublikasi'])->name('toggle_publikasi');
+    });
+});
+
+// Kepala Sekolah Routes
+Route::middleware(['auth', 'can:kepsek'])->prefix('kepsek')->name('kepsek.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\Kepsek\DashboardController::class, 'index'])->name('dashboard');
+    
+    // Monitoring
+    Route::get('/monitoring/guru', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'guru'])->name('monitoring.guru');
+    Route::get('/monitoring/siswa', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'siswa'])->name('monitoring.siswa');
+    Route::get('/monitoring/rombel', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'rombel'])->name('monitoring.rombel');
+
+    // Laporan
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/rapor', [\App\Http\Controllers\Kepsek\LaporanController::class, 'rapor'])->name('rapor');
+        Route::get('/rapor/kelas/{rombel_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'raporKelas'])->name('rapor_kelas');
+        Route::get('/rapor/siswa/{siswa_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'raporSiswa'])->name('rapor_siswa');
+        
+        Route::get('/rapor-p5', [\App\Http\Controllers\Kepsek\LaporanController::class, 'raporP5'])->name('rapor_p5');
+        Route::get('/rapor-p5/kelas/{rombel_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'raporP5Kelas'])->name('rapor_p5_kelas');
+        Route::get('/rapor-p5/siswa/{siswa_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'raporP5Siswa'])->name('rapor_p5_siswa');
+        
+        Route::get('/leger', [\App\Http\Controllers\Kepsek\LaporanController::class, 'leger'])->name('leger');
+        Route::get('/leger/download/{rombel_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'legerDownload'])->name('leger_download');
     });
 });
 

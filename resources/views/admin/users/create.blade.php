@@ -25,6 +25,7 @@
                         <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Level Pengguna</label>
                         <select id="role" name="role" x-model="role" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 sm:text-sm" required>
                             <option value="admin">Admin</option>
+                            <option value="kepsek">Kepala Sekolah</option>
                             <option value="guru">Guru</option>
                             <option value="siswa">Siswa</option>
                         </select>

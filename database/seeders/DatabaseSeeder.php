@@ -33,12 +33,21 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Setup Admin
+        // 1. Setup Admin & Kepsek
         User::create([
             'name' => 'Administrator',
             'username' => 'admin',
             'email' => 'admin@erapor.local',
             'role' => 'admin',
+            'password' => Hash::make('password123'),
+            'is_active' => true,
+        ]);
+
+        User::create([
+            'name' => 'Kepala Sekolah',
+            'username' => 'kepsek',
+            'email' => 'kepsek@erapor.local',
+            'role' => 'kepsek',
             'password' => Hash::make('password123'),
             'is_active' => true,
         ]);
