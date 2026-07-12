@@ -1,0 +1,37 @@
+@startuml
+title Flowchart Proses Publikasi Rapor
+skinparam style strictuml
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+|Admin|
+start
+:Login ke Aplikasi;
+:Akses Menu "Cetak Nilai / Rapor";
+:Pilih Rombongan Belajar (Rombel);
+
+|Sistem|
+:Tampilkan Daftar Siswa di Rombel;
+:Tampilkan Status Kelengkapan Nilai;
+
+|Admin|
+:Review Kelengkapan Nilai Siswa;
+if (Nilai Sudah Lengkap?) then (Ya)
+  :Klik Tombol "Tampilkan / Publish" pada Siswa Terkait;
+else (Belum Lengkap)
+  :Tunda Publikasi;
+  :Konfirmasi ke Wali Kelas/Guru Terkait;
+  stop
+endif
+
+|Sistem|
+:Ubah Status Rapor Menjadi "Published" (Tampil);
+:Simpan Perubahan ke Database;
+:Tampilkan Notifikasi Sukses;
+
+|Admin|
+:Menerima Notifikasi;
+stop
+@enduml

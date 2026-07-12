@@ -1,0 +1,102 @@
+@startuml
+title Class Diagram - Sistem E-Rapor SD
+
+' Konfigurasi Tampilan untuk Laporan Akademik
+top to bottom direction
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+skinparam packageStyle rectangle
+hide methods
+
+package "Master Data" {
+    abstract class Pengguna {
+        - id: int
+        - username: string
+        - role: string
+    }
+
+    class Admin {
+        - nama_admin: string
+    }
+
+    class Guru {
+        - nip: string
+        - nama_lengkap: string
+        - no_telp: string
+    }
+
+    class Siswa {
+        - nisn: string
+        - nis: string
+        - nama_lengkap: string
+        - nama_ayah: string
+        - nama_ibu: string
+        - alamat: string
+    }
+
+    class KepalaSekolah {
+        - nip: string
+        - nama_lengkap: string
+    }
+
+    class Semester {
+        - id: int
+        - tahun_pelajaran: string
+        - nama_semester: string
+        - is_aktif: boolean
+    }
+
+    class MataPelajaran {
+        - kode_mapel: string
+        - nama_mapel: string
+        - kelompok: string
+    }
+
+    ' Relasi Inheritance Vertikal
+    Admin -up-|> Pengguna
+    Guru -up-|> Pengguna
+    Siswa -up-|> Pengguna
+    KepalaSekolah -up-|> Pengguna
+}
+
+package "Akademik" {
+    class RombonganBelajar {
+        - id: int
+        - nama_rombel: string
+        - tingkat_kelas: string
+    }
+}
+
+package "Penilaian" {
+    class Nilai {
+        - nilai_angka: float
+        - capaian_kompetensi: text
+    }
+
+    class Rapor {
+        - id_rapor: int
+        - catatan_wali_kelas: text
+        - status_publikasi: boolean
+    }
+}
+
+' Relasi Master Data ke Akademik (Arah Bawah)
+Guru "1" -- "*" RombonganBelajar : Wali Kelas 
+Semester "1" -- "*" RombonganBelajar : Periode 
+Siswa "*" -- "*" RombonganBelajar : Terdaftar 
+
+' Relasi Master Data ke Penilaian (Arah Bawah)
+MataPelajaran "1" -- "*" Nilai : Mengujikan 
+Siswa "1" -- "*" Nilai : Mendapat 
+Siswa "1" -- "*" Rapor : Memiliki 
+Semester "1" -- "*" Rapor : Mendasari 
+
+' Relasi Asosiasi / Agregasi di tingkat Penilaian
+Rapor "1" o-right- "*" Nilai : Mengkompilasi >
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+title Flowchart Proses Input Nilai
+skinparam style strictuml
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+|Guru|
+start
+:Login ke Aplikasi;
+:Akses Menu "Input Nilai";
+:Pilih Rombongan Belajar (Rombel);
+:Pilih Mata Pelajaran;
+
+|Sistem|
+:Tampilkan Daftar Siswa di Rombel Tersebut;
+
+|Guru|
+:Masukkan Nilai Akademik Siswa;
+:Masukkan Deskripsi Capaian Siswa;
+:Klik Tombol "Simpan";
+
+|Sistem|
+:Terima Data Nilai dan Deskripsi;
+:Validasi Data Kosong atau Format Salah;
+if (Data Valid?) then (Ya)
+  :Simpan Data ke Database;
+  :Tampilkan Pesan Berhasil (Success);
+  |Guru|
+  :Menerima Notifikasi Berhasil;
+  stop
+else (Tidak)
+  |Sistem|
+  :Tampilkan Pesan Peringatan (Warning/Error);
+  |Guru|
+  :Melakukan Perbaikan Data Nilai;
+  :Klik Tombol "Simpan" Ulang;
+  stop
+endif
+@enduml

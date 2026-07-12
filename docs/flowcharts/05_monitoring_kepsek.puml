@@ -1,0 +1,39 @@
+@startuml
+skinparam style strictuml
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+|Kepala Sekolah|
+start
+:Buka Halaman Utama;
+:Login ke Aplikasi menggunakan Akun Kepsek;
+:Pilih Menu (Monitoring Data atau Tinjau Laporan);
+
+if (Menu yang Dipilih?) then (Monitoring Data)
+  |Kepala Sekolah|
+  :Akses Menu Data Guru / Siswa / Rombel;
+  |Sistem|
+  :Ambil Rekapitulasi Data dari Database;
+  :Tampilkan Daftar Data Aktif;
+  |Kepala Sekolah|
+  :Melihat dan Mencari Data (Read-Only);
+else (Tinjau Laporan)
+  |Kepala Sekolah|
+  :Akses Menu Leger / Rapor Akademik / Rapor P5;
+  :Pilih Filter Semester dan Kelas;
+  |Sistem|
+  :Tampilkan Daftar Siswa di Kelas tersebut;
+  |Kepala Sekolah|
+  :Klik Tombol "Lihat / Cetak";
+  |Sistem|
+  :Kompilasi Data Nilai tanpa Memperdulikan Status Publikasi;
+  :Generate File Dokumen (.PDF / Excel);
+  :Tampilkan ke Browser Pengguna;
+  |Kepala Sekolah|
+  :Melihat atau Mengunduh Laporan;
+endif
+
+stop
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+title Flowchart Proses Login Sistem
+skinparam style strictuml
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+|Pengguna|
+start
+:Buka Halaman Utama (Login);
+:Pilih Role (Guru/Admin/Siswa);
+:Masukkan Email/Username dan Password;
+:Klik Tombol Login;
+
+|Sistem|
+:Terima Kredensial;
+:Validasi Data di Database;
+if (Kredensial Valid?) then (Ya)
+  :Buat Session Pengguna;
+  :Arahkan ke Dashboard sesuai Role;
+  |Pengguna|
+  :Melihat Halaman Dashboard;
+  stop
+else (Tidak)
+  |Sistem|
+  :Tampilkan Pesan Error (Invalid Credentials);
+  |Pengguna|
+  :Menerima Pesan Error;
+  :Kembali ke Form Login;
+  stop
+endif
+@enduml

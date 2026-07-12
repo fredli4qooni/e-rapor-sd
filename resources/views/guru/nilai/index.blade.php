@@ -107,8 +107,15 @@
                                             @foreach($siswas as $idx => $siswa)
                                                 @php
                                                     $nilaiSiswa = $nilai->get($siswa->id);
-                                                    $tpTinggiArray = $nilaiSiswa ? ($nilaiSiswa->tp_tertinggi ?? []) : [];
-                                                    $tpRendahArray = $nilaiSiswa ? ($nilaiSiswa->tp_terendah ?? []) : [];
+                                                    $tpTinggiRaw = $nilaiSiswa ? ($nilaiSiswa->tp_tertinggi ?? []) : [];
+                                                    $tpTinggiArray = is_string($tpTinggiRaw) ? json_decode($tpTinggiRaw, true) : $tpTinggiRaw;
+                                                    if (!is_array($tpTinggiArray)) $tpTinggiArray = [];
+                                                    $tpTinggiArray = array_map(function($i) { return is_array($i) ? ($i['id'] ?? $i) : $i; }, $tpTinggiArray);
+
+                                                    $tpRendahRaw = $nilaiSiswa ? ($nilaiSiswa->tp_terendah ?? []) : [];
+                                                    $tpRendahArray = is_string($tpRendahRaw) ? json_decode($tpRendahRaw, true) : $tpRendahRaw;
+                                                    if (!is_array($tpRendahArray)) $tpRendahArray = [];
+                                                    $tpRendahArray = array_map(function($i) { return is_array($i) ? ($i['id'] ?? $i) : $i; }, $tpRendahArray);
                                                 @endphp
                                                 <tr class="hover:bg-gray-50 transition-colors">
                                                     <td class="sticky left-0 bg-white group-hover:bg-gray-50 z-10 px-4 py-3 text-sm text-gray-500 text-center border-r border-gray-200">{{ $idx + 1 }}</td>

@@ -1,0 +1,59 @@
+@startuml
+title Use Case Diagram - Sistem E-Rapor SD
+
+' Konfigurasi tampilan agar rapi untuk laporan akademik
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+skinparam actor {
+  BackgroundColor White
+  BorderColor Black
+}
+
+' Definisi Aktor
+actor "Admin" as admin
+actor "Guru" as guru
+actor "Orang Tua" as ortu
+actor "Kepala Sekolah" as kepsek
+
+' System Boundary
+rectangle "Sistem E-Rapor SD" {
+  
+  ' Definisi Use Case
+  usecase "Melakukan Autentikasi" as UC_Auth
+  usecase "Mengelola Data Pengguna" as UC_KelolaUser
+  usecase "Menginput Nilai Siswa" as UC_InputNilai
+  usecase "Mempublikasikan Rapor" as UC_Publish
+  usecase "Melihat Rapor" as UC_LihatRapor
+  usecase "Mencetak Rapor" as UC_CetakRapor
+  usecase "Memonitor Data Akademik" as UC_MonitorData
+  usecase "Meninjau Laporan Hasil Belajar" as UC_TinjauLaporan
+
+  ' Relasi <<include>> (Wajib melakukan autentikasi sebelum akses fitur)
+  UC_KelolaUser ..> UC_Auth : <<include>>
+  UC_InputNilai ..> UC_Auth : <<include>>
+  UC_Publish ..> UC_Auth : <<include>>
+  UC_LihatRapor ..> UC_Auth : <<include>>
+  UC_MonitorData ..> UC_Auth : <<include>>
+  UC_TinjauLaporan ..> UC_Auth : <<include>>
+
+  ' Relasi <<extend>> (Proses cetak adalah opsional saat melihat rapor)
+  UC_CetakRapor .left.> UC_LihatRapor : <<extend>>
+}
+
+' Relasi Aktor dengan Use Case Utama
+admin --> UC_KelolaUser
+admin --> UC_Publish
+
+guru --> UC_InputNilai
+
+ortu --> UC_LihatRapor
+
+kepsek --> UC_MonitorData
+kepsek --> UC_TinjauLaporan
+
+@enduml

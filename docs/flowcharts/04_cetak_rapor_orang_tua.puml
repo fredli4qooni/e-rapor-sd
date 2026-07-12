@@ -1,0 +1,39 @@
+@startuml
+title Flowchart Proses Cetak Rapor
+skinparam style strictuml
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+}
+
+|Orang Tua / Siswa|
+start
+:Buka Halaman Utama (Web Browser dari luar jaringan);
+:Login ke Aplikasi menggunakan Akun Siswa;
+:Akses Menu "Download Rapor";
+
+|Sistem|
+:Cari Data Rapor Siswa;
+:Cek Status Publikasi Rapor dari Admin/Wali Kelas;
+if (Rapor Sudah Dipublikasikan?) then (Ya)
+  :Tampilkan Tombol Download/Cetak PDF Rapor;
+else (Belum)
+  :Tampilkan Pesan "Rapor Belum Tersedia";
+  |Orang Tua / Siswa|
+  :Menerima Informasi Penundaan;
+  stop
+endif
+
+|Orang Tua / Siswa|
+:Klik Tombol "Download / Cetak";
+
+|Sistem|
+:Kompilasi Data Nilai, Absensi, dan Identitas;
+:Generate File Dokumen (.PDF);
+:Kirim File ke Browser Pengguna;
+
+|Orang Tua / Siswa|
+:File PDF Terunduh;
+:Buka dan Cetak Dokumen Rapor Fisik;
+stop
+@enduml
