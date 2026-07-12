@@ -70,5 +70,56 @@
             </div>
         </div>
 
+        <!-- Chart Section -->
+        <div class="bg-white rounded-md shadow-md mt-6">
+            <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
+                Grafik Persebaran Siswa Per Rombel
+            </div>
+            <div class="p-6">
+                <canvas id="siswaChart" style="max-height: 400px;"></canvas>
+            </div>
+        </div>
     </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('siswaChart').getContext('2d');
+            var labels = {!! $chart_labels ?? '[]' !!};
+            var dataValues = {!! $chart_data ?? '[]' !!};
+
+            var siswaChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Siswa',
+                        data: dataValues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

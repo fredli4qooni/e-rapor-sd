@@ -28,6 +28,11 @@ class DashboardController extends Controller
             'pembelajaran' => $semester_aktif ? Pembelajaran::where('semester_id', $semester_aktif->id)->count() : 0,
         ];
 
-        return view('kepsek.dashboard', compact('sekolah', 'semester_aktif', 'semester_teks', 'counts'));
+        // Data untuk Grafik Siswa per Rombel
+        $rombels = $semester_aktif ? Rombel::where('semester_id', $semester_aktif->id)->withCount('siswas')->get() : collect();
+        $chart_labels = $rombels->pluck('nama_rombel')->toJson();
+        $chart_data = $rombels->pluck('siswas_count')->toJson();
+
+        return view('kepsek.dashboard', compact('sekolah', 'semester_aktif', 'semester_teks', 'counts', 'chart_labels', 'chart_data'));
     }
 }
