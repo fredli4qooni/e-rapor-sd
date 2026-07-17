@@ -38,12 +38,12 @@ class DashboardController extends Controller
         if ($semester_aktif) {
             $grafik_nilai = \Illuminate\Support\Facades\DB::table('nilai_rapors')
                 ->join('mata_pelajarans', 'nilai_rapors.mata_pelajaran_id', '=', 'mata_pelajarans.id')
-                ->select('mata_pelajarans.nama_mapel', \Illuminate\Support\Facades\DB::raw('AVG(nilai_rapors.nilai_akhir) as rata_rata'))
+                ->select(\Illuminate\Support\Facades\DB::raw('COALESCE(NULLIF(mata_pelajarans.nama_singkat, ""), mata_pelajarans.nama_mapel) as mapel_label'), \Illuminate\Support\Facades\DB::raw('AVG(nilai_rapors.nilai_akhir) as rata_rata'))
                 ->where('nilai_rapors.semester_id', $semester_aktif->id)
-                ->groupBy('mata_pelajarans.id', 'mata_pelajarans.nama_mapel')
+                ->groupBy('mata_pelajarans.id', 'mata_pelajarans.nama_singkat', 'mata_pelajarans.nama_mapel')
                 ->get();
         }
-        $chart_nilai_labels = $grafik_nilai ? collect($grafik_nilai)->pluck('nama_mapel')->toJson() : '[]';
+        $chart_nilai_labels = $grafik_nilai ? collect($grafik_nilai)->pluck('mapel_label')->toJson() : '[]';
         $chart_nilai_data = $grafik_nilai ? collect($grafik_nilai)->pluck('rata_rata')->map(fn($v) => round($v, 2))->toJson() : '[]';
 
         return view('kepsek.dashboard', compact('sekolah', 'semester_aktif', 'semester_teks', 'counts', 'chart_labels', 'chart_data', 'chart_nilai_labels', 'chart_nilai_data'));
