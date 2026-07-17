@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="space-y-6 mt-6">
             <!-- Chart Persebaran Siswa -->
             <div class="bg-white rounded-md shadow-md">
                 <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
