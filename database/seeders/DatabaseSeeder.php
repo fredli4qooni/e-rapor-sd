@@ -75,18 +75,18 @@ class DatabaseSeeder extends Seeder
 
         // 3. Setup Mata Pelajaran SD
         $mapelList = [
-            'Pendidikan Agama Islam dan Budi Pekerti', 
-            'Pendidikan Pancasila', 
-            'Bahasa Indonesia', 
-            'Matematika', 
-            'Ilmu Pengetahuan Alam dan Sosial (IPAS)', 
-            'Pendidikan Jasmani, Olahraga, dan Kesehatan', 
-            'Seni Budaya', 
-            'Muatan Lokal Bahasa Daerah'
+            ['nama_mapel' => 'Pendidikan Agama Islam dan Budi Pekerti', 'nama_singkat' => 'PAI'],
+            ['nama_mapel' => 'Pendidikan Pancasila', 'nama_singkat' => 'PPKn'],
+            ['nama_mapel' => 'Bahasa Indonesia', 'nama_singkat' => 'B. Indonesia'],
+            ['nama_mapel' => 'Matematika', 'nama_singkat' => 'Matematika'],
+            ['nama_mapel' => 'Ilmu Pengetahuan Alam dan Sosial (IPAS)', 'nama_singkat' => 'IPAS'],
+            ['nama_mapel' => 'Pendidikan Jasmani, Olahraga, dan Kesehatan', 'nama_singkat' => 'PJOK'],
+            ['nama_mapel' => 'Seni Budaya', 'nama_singkat' => 'Seni Budaya'],
+            ['nama_mapel' => 'Muatan Lokal Bahasa Daerah', 'nama_singkat' => 'B. Daerah']
         ];
         $mapelIds = [];
         foreach ($mapelList as $m) {
-            $mapelIds[] = MataPelajaran::create(['nama_mapel' => $m])->id;
+            $mapelIds[] = MataPelajaran::create($m)->id;
         }
 
         // 4. Setup Guru dengan nama realistis
