@@ -37,6 +37,51 @@
                     </div>
                 </div>
             </div>
+            <div class="mt-6 bg-white rounded-md shadow-md">
+                <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
+                    Grafik Rata-rata Nilai per Mapel di Kelas
+                </div>
+                <div class="p-6">
+                    <canvas id="nilaiChart" style="max-height: 350px;"></canvas>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctxNilai = document.getElementById('nilaiChart').getContext('2d');
+            var labelsNilai = {!! $chart_nilai_labels ?? '[]' !!};
+            var dataNilai = {!! $chart_nilai_data ?? '[]' !!};
+
+            new Chart(ctxNilai, {
+                type: 'bar',
+                data: {
+                    labels: labelsNilai,
+                    datasets: [{
+                        label: 'Rata-rata Nilai',
+                        data: dataNilai,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { stepSize: 10 }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

@@ -70,13 +70,25 @@
             </div>
         </div>
 
-        <!-- Chart Section -->
-        <div class="bg-white rounded-md shadow-md mt-6">
-            <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
-                Grafik Persebaran Siswa Per Rombel
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <!-- Chart Persebaran Siswa -->
+            <div class="bg-white rounded-md shadow-md">
+                <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
+                    Grafik Persebaran Siswa Per Rombel
+                </div>
+                <div class="p-6">
+                    <canvas id="siswaChart" style="max-height: 350px;"></canvas>
+                </div>
             </div>
-            <div class="p-6">
-                <canvas id="siswaChart" style="max-height: 400px;"></canvas>
+
+            <!-- Chart Analitik Nilai -->
+            <div class="bg-white rounded-md shadow-md">
+                <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
+                    Grafik Rata-rata Nilai per Mapel
+                </div>
+                <div class="p-6">
+                    <canvas id="nilaiChart" style="max-height: 350px;"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -85,17 +97,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('siswaChart').getContext('2d');
-            var labels = {!! $chart_labels ?? '[]' !!};
-            var dataValues = {!! $chart_data ?? '[]' !!};
+            // Chart Persebaran Siswa
+            var ctxSiswa = document.getElementById('siswaChart').getContext('2d');
+            var labelsSiswa = {!! $chart_labels ?? '[]' !!};
+            var dataSiswa = {!! $chart_data ?? '[]' !!};
 
-            var siswaChart = new Chart(ctx, {
+            new Chart(ctxSiswa, {
                 type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: labelsSiswa,
                     datasets: [{
                         label: 'Jumlah Siswa',
-                        data: dataValues,
+                        data: dataSiswa,
                         backgroundColor: 'rgba(54, 162, 235, 0.7)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1,
@@ -108,16 +121,42 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
+                            ticks: { stepSize: 1 }
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Chart Analitik Nilai
+            var ctxNilai = document.getElementById('nilaiChart').getContext('2d');
+            var labelsNilai = {!! $chart_nilai_labels ?? '[]' !!};
+            var dataNilai = {!! $chart_nilai_data ?? '[]' !!};
+
+            new Chart(ctxNilai, {
+                type: 'bar',
+                data: {
+                    labels: labelsNilai,
+                    datasets: [{
+                        label: 'Rata-rata Nilai',
+                        data: dataNilai,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { stepSize: 10 }
                         }
-                    }
+                    },
+                    plugins: { legend: { display: false } }
                 }
             });
         });

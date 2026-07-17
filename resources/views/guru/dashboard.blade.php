@@ -100,6 +100,17 @@
                 </div>
             </div>
 
+            <!-- Chart Analitik Nilai -->
+            <div class="mt-6 bg-white rounded-xl shadow-md p-6 border-t-4 border-green-600">
+                <div class="flex items-center mb-4">
+                    <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <h3 class="text-xl font-bold text-gray-800">Grafik Rata-rata Nilai per Mapel</h3>
+                </div>
+                <div style="position: relative; height:350px;">
+                    <canvas id="nilaiChart"></canvas>
+                </div>
+            </div>
+
             <!-- Panduan Aplikasi & Info e-Rapor -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                 <!-- Info Aplikasi -->
@@ -159,4 +170,41 @@
 
         </div>
     </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctxNilai = document.getElementById('nilaiChart').getContext('2d');
+            var labelsNilai = {!! $chart_nilai_labels ?? '[]' !!};
+            var dataNilai = {!! $chart_nilai_data ?? '[]' !!};
+
+            new Chart(ctxNilai, {
+                type: 'bar',
+                data: {
+                    labels: labelsNilai,
+                    datasets: [{
+                        label: 'Rata-rata Nilai',
+                        data: dataNilai,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { stepSize: 10 }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

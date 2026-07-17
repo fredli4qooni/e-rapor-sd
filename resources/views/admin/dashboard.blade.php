@@ -178,5 +178,58 @@
             </div>
         </div>
 
+        <!-- Chart Analitik Nilai -->
+        <div class="mt-6 bg-white rounded-md shadow-md">
+            <div class="bg-[#8B1515] text-white px-4 py-2 rounded-t-md font-bold text-sm uppercase tracking-wider">
+                Grafik Rata-rata Nilai per Mata Pelajaran
+            </div>
+            <div class="p-6">
+                <canvas id="nilaiChart" style="max-height: 400px;"></canvas>
+            </div>
+        </div>
+
     </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('nilaiChart').getContext('2d');
+            var labels = {!! $chart_nilai_labels ?? '[]' !!};
+            var dataValues = {!! $chart_nilai_data ?? '[]' !!};
+
+            var nilaiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rata-rata Nilai',
+                        data: dataValues,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 10
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

@@ -40,7 +40,20 @@ class SiswaController extends Controller
             $q->where('siswa_id', $siswa->id);
         })->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)->get();
 
-        return view('siswa.dashboard', compact('siswa', 'sekolah', 'semesterAktif', 'rombel', 'kurikulum', 'ekskuls', 'kelompokP5s'));
+        // Data Grafik Analitik Nilai Siswa
+        $grafik_nilai = [];
+        if ($semesterAktif && $siswa) {
+            $grafik_nilai = \Illuminate\Support\Facades\DB::table('nilai_rapors')
+                ->join('mata_pelajarans', 'nilai_rapors.mata_pelajaran_id', '=', 'mata_pelajarans.id')
+                ->select('mata_pelajarans.nama_mapel', 'nilai_rapors.nilai_akhir as rata_rata')
+                ->where('nilai_rapors.semester_id', $semesterAktif->id)
+                ->where('nilai_rapors.siswa_id', $siswa->id)
+                ->get();
+        }
+        $chart_nilai_labels = $grafik_nilai ? collect($grafik_nilai)->pluck('nama_mapel')->toJson() : '[]';
+        $chart_nilai_data = $grafik_nilai ? collect($grafik_nilai)->pluck('rata_rata')->map(fn($v) => round($v, 2))->toJson() : '[]';
+
+        return view('siswa.dashboard', compact('siswa', 'sekolah', 'semesterAktif', 'rombel', 'kurikulum', 'ekskuls', 'kelompokP5s', 'chart_nilai_labels', 'chart_nilai_data'));
     }
 
     public function cetak(\App\Services\CurriculumService $curriculumService, \Illuminate\Http\Request $request)
