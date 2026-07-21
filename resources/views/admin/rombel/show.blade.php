@@ -46,22 +46,35 @@
             <div class="p-6">
                 <form action="{{ route('admin.rombel.anggota.store', $rombel->id) }}" method="POST">
                     @csrf
-                    <div class="mb-1">
-                        <label for="siswa_ids" class="block text-sm font-medium text-gray-700">Pilih Siswa (Bisa Pilih Banyak)</label>
+                    <div class="mb-2 flex justify-between items-center border-b pb-2">
+                        <label class="block text-sm font-bold text-gray-700">Daftar Siswa yang Tersedia</label>
+                        <span class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded">Centang kotak untuk memilih</span>
                     </div>
-                    <div class="flex flex-col md:flex-row items-start gap-4">
-                        <div class="flex-1 w-full">
-                            <select name="siswa_ids[]" id="siswa_ids" class="w-full rounded-md shadow-sm border-gray-300 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50" multiple required size="5">
-                                @forelse($availableSiswas as $siswa)
-                                    <option value="{{ $siswa->id }}">{{ $siswa->nama_lengkap }} - NISN: {{ $siswa->nisn }} (L/P: {{ $siswa->jenis_kelamin }})</option>
-                                @empty
-                                    <option value="" disabled>Semua siswa sudah masuk ke kelas ini atau data siswa kosong.</option>
-                                @endforelse
-                            </select>
-                            <p class="text-xs text-gray-500 mt-2">Tahan tombol <b>Ctrl</b> (Windows) atau <b>Command</b> (Mac) untuk memilih lebih dari satu siswa sekaligus.</p>
+                    
+                    <div class="border border-gray-200 rounded-md shadow-inner bg-gray-50 overflow-hidden mb-4">
+                        <div class="max-h-60 overflow-y-auto p-2 space-y-1">
+                            @forelse($availableSiswas as $siswa)
+                                <label class="flex items-center p-2 hover:bg-red-50 bg-white rounded border border-gray-100 cursor-pointer transition-colors">
+                                    <input type="checkbox" name="siswa_ids[]" value="{{ $siswa->id }}" class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500 w-5 h-5 ml-1">
+                                    <div class="ml-3 flex-1">
+                                        <span class="block text-sm font-bold text-gray-800">{{ $siswa->nama_lengkap }}</span>
+                                        <span class="block text-xs text-gray-500">NISN: {{ $siswa->nisn }} &nbsp;&bull;&nbsp; L/P: {{ $siswa->jenis_kelamin }}</span>
+                                    </div>
+                                </label>
+                            @empty
+                                <div class="p-6 text-center text-sm text-gray-500 italic bg-white rounded">
+                                    Semua siswa sudah masuk ke kelas ini atau data siswa kosong.
+                                </div>
+                            @endforelse
                         </div>
-                        <button type="submit" class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded shadow w-full md:w-auto h-10 mt-1">
-                            Tambahkan ke Rombel
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded shadow w-full md:w-auto flex items-center justify-center gap-2 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            Tambahkan Siswa Terpilih
                         </button>
                     </div>
                 </form>
