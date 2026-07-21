@@ -46,26 +46,67 @@
             <div class="p-6">
                 <form action="{{ route('admin.rombel.anggota.store', $rombel->id) }}" method="POST">
                     @csrf
-                    <div class="mb-2 flex justify-between items-center border-b pb-2">
-                        <label class="block text-sm font-bold text-gray-700">Daftar Siswa yang Tersedia</label>
-                        <span class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded">Centang kotak untuk memilih</span>
-                    </div>
-                    
-                    <div class="border border-gray-200 rounded-md shadow-inner bg-gray-50 overflow-hidden mb-4">
-                        <div class="max-h-60 overflow-y-auto p-2 space-y-1">
-                            @forelse($availableSiswas as $siswa)
-                                <label class="flex items-center p-2 hover:bg-red-50 bg-white rounded border border-gray-100 cursor-pointer transition-colors">
-                                    <input type="checkbox" name="siswa_ids[]" value="{{ $siswa->id }}" class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500 w-5 h-5 ml-1">
-                                    <div class="ml-3 flex-1">
-                                        <span class="block text-sm font-bold text-gray-800">{{ $siswa->nama_lengkap }}</span>
-                                        <span class="block text-xs text-gray-500">NISN: {{ $siswa->nisn }} &nbsp;&bull;&nbsp; L/P: {{ $siswa->jenis_kelamin }}</span>
+                    <div x-data="{ 
+                            search: '', 
+                            jenisKelamin: '',
+                            selectAll: false,
+                            toggleAll() {
+                                let checkboxes = document.querySelectorAll('.siswa-checkbox');
+                                checkboxes.forEach(cb => {
+                                    if(cb.closest('label').style.display !== 'none') {
+                                        cb.checked = this.selectAll;
+                                    }
+                                });
+                            }
+                        }">
+                        
+                        <div class="mb-3 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-3 gap-3">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700">Daftar Siswa yang Tersedia</label>
+                                <span class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded">Centang kotak untuk memilih</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                                <select x-model="jenisKelamin" class="text-sm rounded-md shadow-sm border-gray-300 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                                    <option value="">Semua L/P</option>
+                                    <option value="L">Laki-laki (L)</option>
+                                    <option value="P">Perempuan (P)</option>
+                                </select>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                        </svg>
                                     </div>
-                                </label>
-                            @empty
-                                <div class="p-6 text-center text-sm text-gray-500 italic bg-white rounded">
-                                    Semua siswa sudah masuk ke kelas ini atau data siswa kosong.
+                                    <input type="text" x-model="search" placeholder="Cari nama / NISN..." class="pl-9 text-sm rounded-md shadow-sm border-gray-300 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50 w-full md:w-64">
                                 </div>
-                            @endforelse
+                            </div>
+                        </div>
+                        
+                        <div class="mb-2 px-1 flex justify-between items-center">
+                            <label class="inline-flex items-center cursor-pointer hover:bg-gray-50 px-2 py-1 rounded transition-colors">
+                                <input type="checkbox" x-model="selectAll" @change="toggleAll()" class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500 w-4 h-4">
+                                <span class="ml-2 text-sm font-bold text-gray-700">Pilih Semua Tampil</span>
+                            </label>
+                            <span class="text-xs text-gray-500" x-text="(search || jenisKelamin) ? 'Hasil pencarian ditampilkan' : 'Semua siswa ditampilkan'"></span>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-md shadow-inner bg-gray-50 overflow-hidden mb-4">
+                            <div class="max-h-72 overflow-y-auto p-2 space-y-1">
+                                @forelse($availableSiswas as $siswa)
+                                    <label class="flex items-center p-2 hover:bg-red-50 bg-white rounded border border-gray-100 cursor-pointer transition-colors"
+                                           x-show="(search === '' || '{{ strtolower($siswa->nama_lengkap) }}'.includes(search.toLowerCase()) || '{{ $siswa->nisn }}'.includes(search)) && (jenisKelamin === '' || '{{ $siswa->jenis_kelamin }}' === jenisKelamin)">
+                                        <input type="checkbox" name="siswa_ids[]" value="{{ $siswa->id }}" class="siswa-checkbox rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500 w-5 h-5 ml-1">
+                                        <div class="ml-3 flex-1">
+                                            <span class="block text-sm font-bold text-gray-800">{{ $siswa->nama_lengkap }}</span>
+                                            <span class="block text-xs text-gray-500">NISN: {{ $siswa->nisn }} &nbsp;&bull;&nbsp; L/P: {{ $siswa->jenis_kelamin }}</span>
+                                        </div>
+                                    </label>
+                                @empty
+                                    <div class="p-6 text-center text-sm text-gray-500 italic bg-white rounded">
+                                        Semua siswa sudah masuk ke kelas ini atau data siswa kosong.
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
                     
