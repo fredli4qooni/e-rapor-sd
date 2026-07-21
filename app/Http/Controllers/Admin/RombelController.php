@@ -72,13 +72,27 @@ class RombelController extends Controller
     public function show(\App\Models\Rombel $rombel)
     {
         $rombel->load('siswas');
-        return view('admin.rombel.show', compact('rombel'));
+        $availableSiswas = \App\Models\Siswa::whereNotIn('id', $rombel->siswas->pluck('id'))->orderBy('nama_lengkap')->get();
+        return view('admin.rombel.show', compact('rombel', 'availableSiswas'));
     }
 
     public function destroy(\App\Models\Rombel $rombel)
     {
         $rombel->delete();
         return redirect()->route('admin.rombel.index')->with('status', 'Data Kelas/Rombel berhasil dihapus!');
+    }
+
+    public function tambahAnggota(Request $request, \App\Models\Rombel $rombel)
+    {
+        $request->validate([
+            'siswa_ids' => 'required|array',
+            'siswa_ids.*' => 'exists:siswas,id'
+        ]);
+
+        // Cegah duplikasi siswa di tabel pivot (meski sudah disaring di view)
+        $rombel->siswas()->syncWithoutDetaching($request->siswa_ids);
+        
+        return back()->with('status', 'Anggota rombel berhasil ditambahkan!');
     }
 
     public function hapusAnggota(\App\Models\Rombel $rombel, \App\Models\Siswa $siswa)

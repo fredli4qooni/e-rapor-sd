@@ -39,6 +39,33 @@
             </div>
         </div>
 
+        <div class="bg-white rounded-md shadow-md overflow-hidden mb-6">
+            <div class="bg-gray-800 text-white px-6 py-4 font-bold tracking-wider uppercase text-sm border-b border-gray-900">
+                Tambah Anggota Rombel
+            </div>
+            <div class="p-6">
+                <form action="{{ route('admin.rombel.anggota.store', $rombel->id) }}" method="POST">
+                    @csrf
+                    <div class="flex flex-col md:flex-row items-end gap-4">
+                        <div class="flex-1 w-full">
+                            <label for="siswa_ids" class="block text-sm font-medium text-gray-700 mb-1">Pilih Siswa (Bisa Pilih Banyak)</label>
+                            <select name="siswa_ids[]" id="siswa_ids" class="w-full rounded-md shadow-sm border-gray-300 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50" multiple required size="5">
+                                @forelse($availableSiswas as $siswa)
+                                    <option value="{{ $siswa->id }}">{{ $siswa->nama_lengkap }} - NISN: {{ $siswa->nisn }} (L/P: {{ $siswa->jenis_kelamin }})</option>
+                                @empty
+                                    <option value="" disabled>Semua siswa sudah masuk ke kelas ini atau data siswa kosong.</option>
+                                @endforelse
+                            </select>
+                            <p class="text-xs text-gray-500 mt-2">Tahan tombol <b>Ctrl</b> (Windows) atau <b>Command</b> (Mac) untuk memilih lebih dari satu siswa sekaligus.</p>
+                        </div>
+                        <button type="submit" class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-6 rounded shadow w-full md:w-auto h-10 mb-6 md:mb-0">
+                            Tambahkan ke Rombel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="bg-white rounded-md shadow-md overflow-hidden">
             <div class="bg-gray-800 text-white px-6 py-4 font-bold tracking-wider uppercase text-sm border-b border-gray-900">
                 Daftar Anggota Rombel

@@ -34,6 +34,7 @@ Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group
     Route::resource('guru', \App\Http\Controllers\Admin\GuruController::class);
     Route::post('/siswa/generate-user', [\App\Http\Controllers\Admin\SiswaController::class, 'generateUser'])->name('siswa.generate-user');
     Route::resource('siswa', \App\Http\Controllers\Admin\SiswaController::class);
+    Route::post('/rombel/{rombel}/anggota', [\App\Http\Controllers\Admin\RombelController::class, 'tambahAnggota'])->name('rombel.anggota.store');
     Route::delete('/rombel/{rombel}/anggota/{siswa}', [\App\Http\Controllers\Admin\RombelController::class, 'hapusAnggota'])->name('rombel.anggota.destroy');
     Route::resource('rombel', \App\Http\Controllers\Admin\RombelController::class);
     
