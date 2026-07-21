@@ -72,7 +72,22 @@ class RombelController extends Controller
     public function show(\App\Models\Rombel $rombel)
     {
         $rombel->load('siswas');
-        $availableSiswas = \App\Models\Siswa::whereNotIn('id', $rombel->siswas->pluck('id'))->orderBy('nama_lengkap')->get();
+        
+        if ($rombel->jenis_rombel === 'REGULER') {
+            // Ambil ID siswa yang sudah ada di rombel REGULER pada semester ini
+            $siswaSudahAda = \Illuminate\Support\Facades\DB::table('anggota_rombels')
+                ->join('rombels', 'anggota_rombels.rombel_id', '=', 'rombels.id')
+                ->where('rombels.semester_id', $rombel->semester_id)
+                ->where('rombels.jenis_rombel', 'REGULER')
+                ->pluck('anggota_rombels.siswa_id')
+                ->toArray();
+                
+            $availableSiswas = \App\Models\Siswa::whereNotIn('id', $siswaSudahAda)->orderBy('nama_lengkap')->get();
+        } else {
+            // Untuk Ekskul/Pilihan, hanya kecualikan siswa yang sudah ada di rombel INI
+            $availableSiswas = \App\Models\Siswa::whereNotIn('id', $rombel->siswas->pluck('id'))->orderBy('nama_lengkap')->get();
+        }
+
         return view('admin.rombel.show', compact('rombel', 'availableSiswas'));
     }
 
@@ -89,7 +104,21 @@ class RombelController extends Controller
             'siswa_ids.*' => 'exists:siswas,id'
         ]);
 
-        // Cegah duplikasi siswa di tabel pivot (meski sudah disaring di view)
+        if ($rombel->jenis_rombel === 'REGULER') {
+            // Pastikan siswa dilepas dari rombel reguler lain pada semester yang sama jika berpindah
+            $rombelRegulerLain = \App\Models\Rombel::where('semester_id', $rombel->semester_id)
+                ->where('jenis_rombel', 'REGULER')
+                ->pluck('id');
+                
+            if ($rombelRegulerLain->count() > 0) {
+                \Illuminate\Support\Facades\DB::table('anggota_rombels')
+                    ->whereIn('rombel_id', $rombelRegulerLain)
+                    ->whereIn('siswa_id', $request->siswa_ids)
+                    ->delete();
+            }
+        }
+
+        // Cegah duplikasi siswa di tabel pivot
         $rombel->siswas()->syncWithoutDetaching($request->siswa_ids);
         
         return back()->with('status', 'Anggota rombel berhasil ditambahkan!');
