@@ -11,28 +11,25 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-bold mb-4">Aksi Wali Kelas</h3>
                     <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('walikelas.cetak.pelengkap', 1) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" target="_blank">
-                            Cetak Pelengkap Rapor (Demo Siswa ID: 1)
+                        <a href="{{ route('walikelas.cetak_nilai.pelengkap_index') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Pelengkap Rapor
                         </a>
-                        <form action="{{ route('walikelas.cetak.semester', 1) }}" method="GET" target="_blank" class="inline">
-                            <input type="hidden" name="kurikulum" value="MERDEKA">
-                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Cetak Rapor Merdeka (Demo Siswa 1)
-                            </button>
-                        </form>
+                        <a href="{{ route('walikelas.cetak_nilai.rapor_index') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Cetak Rapor Siswa
+                        </a>
                         
-                        <a href="{{ route('walikelas.export.leger') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                            Download Leger Excel
+                        <a href="{{ route('walikelas.cetak_nilai.leger') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Leger Rapor Kelas
                         </a>
 
-                        <a href="{{ route('walikelas.kehadiran.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Input Kehadiran & Catatan
+                        <a href="{{ route('walikelas.kehadiran.index') }}" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Kehadiran
                         </a>
-                        <a href="{{ route('walikelas.sikap.index') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Input Nilai Sikap
+                        <a href="{{ route('walikelas.catatan.index') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Catatan Wali Kelas
                         </a>
-                        <a href="{{ route('walikelas.ekskul.index') }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                            Input Ekstrakurikuler
+                        <a href="{{ route('walikelas.ekskul.index') }}" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow">
+                            Ekstrakurikuler
                         </a>
                     </div>
                 </div>
