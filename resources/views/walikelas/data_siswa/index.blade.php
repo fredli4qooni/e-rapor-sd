@@ -47,42 +47,13 @@
                                         <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top capitalize">{{ $siswa->agama ?? 'Islam' }}</td>
                                         <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top">{{ $rombel->tingkat }}</td>
                                         <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top uppercase">{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}</td>
-                                        <td class="px-4 py-3 text-sm text-center border border-gray-300 align-top" x-data="{ openOpsi: false }">
-                                            <div class="relative inline-block text-left">
-                                                <button @click="openOpsi = !openOpsi" @click.away="openOpsi = false" class="bg-red-900 hover:bg-red-800 text-white text-xs font-bold py-1 px-3 rounded shadow transition-colors flex items-center gap-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    </svg>
-                                                    Opsi 
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                                    </svg>
-                                                </button>
-
-                                                <div x-show="openOpsi" style="display: none;" class="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                                    <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                        <button @click="editing = {{ $siswa->id }}; openOpsi = false" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
-                                                            <span class="flex items-center gap-2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                                </svg>
-                                                                Edit
-                                                            </span>
-                                                        </button>
-                                                        <!-- Placeholder for Detail - just re-uses edit for now as no modal is defined yet -->
-                                                        <button @click="alert('Detail feature coming soon'); openOpsi = false" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
-                                                            <span class="flex items-center gap-2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                                </svg>
-                                                                Detail
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <td class="px-4 py-3 text-sm text-center border border-gray-300 align-top">
+                                            <button @click="editing = {{ $siswa->id }}" class="bg-red-900 hover:bg-red-800 text-white text-xs font-bold py-1 px-3 rounded shadow transition-colors flex items-center justify-center gap-1 w-full mx-auto max-w-[80px]">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                                Edit
+                                            </button>
                                         </td>
                                     </tr>
                                     
