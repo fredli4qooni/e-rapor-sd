@@ -95,8 +95,20 @@
                                                         <input type="text" name="nama_ayah" value="{{ $siswa->nama_ayah }}" class="w-full rounded border-gray-300 text-sm focus:border-red-500 focus:ring-red-500">
                                                     </div>
                                                     <div>
+                                                        <label class="block text-xs font-bold text-gray-700 mb-1">Pekerjaan Ayah</label>
+                                                        <input type="text" name="pekerjaan_ayah" value="{{ $siswa->pekerjaan_ayah }}" class="w-full rounded border-gray-300 text-sm focus:border-red-500 focus:ring-red-500">
+                                                    </div>
+                                                    <div>
                                                         <label class="block text-xs font-bold text-gray-700 mb-1">Nama Ibu</label>
                                                         <input type="text" name="nama_ibu" value="{{ $siswa->nama_ibu }}" class="w-full rounded border-gray-300 text-sm focus:border-red-500 focus:ring-red-500">
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-gray-700 mb-1">Pekerjaan Ibu</label>
+                                                        <input type="text" name="pekerjaan_ibu" value="{{ $siswa->pekerjaan_ibu }}" class="w-full rounded border-gray-300 text-sm focus:border-red-500 focus:ring-red-500">
+                                                    </div>
+                                                    <div class="md:col-span-2">
+                                                        <label class="block text-xs font-bold text-gray-700 mb-1">Alamat Siswa / Orang Tua</label>
+                                                        <textarea name="alamat" rows="2" class="w-full rounded border-gray-300 text-sm focus:border-red-500 focus:ring-red-500">{{ $siswa->alamat }}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="flex justify-end gap-2 pt-2 border-t mt-4">

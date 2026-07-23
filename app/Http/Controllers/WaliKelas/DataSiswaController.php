@@ -36,12 +36,16 @@ class DataSiswaController extends Controller
             'tempat_lahir' => 'nullable|string',
             'tanggal_lahir' => 'nullable|date',
             'nama_ayah' => 'nullable|string',
+            'pekerjaan_ayah' => 'nullable|string',
             'nama_ibu' => 'nullable|string',
+            'pekerjaan_ibu' => 'nullable|string',
+            'alamat' => 'nullable|string',
         ]);
 
         $siswa->update($request->only([
             'nis', 'nisn', 'nama_lengkap', 'jenis_kelamin', 
-            'tempat_lahir', 'tanggal_lahir', 'nama_ayah', 'nama_ibu'
+            'tempat_lahir', 'tanggal_lahir', 'nama_ayah', 'pekerjaan_ayah', 
+            'nama_ibu', 'pekerjaan_ibu', 'alamat'
         ]));
 
         return redirect()->route('walikelas.data_siswa.index')->with('success', 'Data siswa berhasil diperbarui!');
