@@ -16,10 +16,10 @@ class CekPenilaianController extends Controller
 {
     public function status(Request $request)
     {
-        $user_id = Auth::id();
+        $guru_id = Auth::user()->guru->id ?? null;
         $semester_id = session('semester_id', Semester::where('is_aktif', true)->first()->id ?? 1);
 
-        $pembelajarans = Pembelajaran::where('guru_id', $user_id)
+        $pembelajarans = Pembelajaran::where('guru_id', $guru_id)
             ->where('semester_id', $semester_id)
             ->with('rombel')
             ->get();
@@ -30,7 +30,7 @@ class CekPenilaianController extends Controller
         $data_status = collect();
 
         if ($rombel_id) {
-            $mapels = Pembelajaran::where('guru_id', $user_id)
+            $mapels = Pembelajaran::where('guru_id', $guru_id)
                 ->where('semester_id', $semester_id)
                 ->where('rombel_id', $rombel_id)
                 ->with('mapel')
@@ -67,10 +67,10 @@ class CekPenilaianController extends Controller
 
     public function capaian(Request $request)
     {
-        $user_id = Auth::id();
+        $guru_id = Auth::user()->guru->id ?? null;
         $semester_id = session('semester_id', Semester::where('is_aktif', true)->first()->id ?? 1);
 
-        $pembelajarans = Pembelajaran::where('guru_id', $user_id)
+        $pembelajarans = Pembelajaran::where('guru_id', $guru_id)
             ->where('semester_id', $semester_id)
             ->with(['rombel', 'mapel'])
             ->get();
@@ -156,10 +156,10 @@ class CekPenilaianController extends Controller
 
     public function grafik(Request $request)
     {
-        $user_id = Auth::id();
+        $guru_id = Auth::user()->guru->id ?? null;
         $semester_id = session('semester_id', Semester::where('is_aktif', true)->first()->id ?? 1);
 
-        $pembelajarans = Pembelajaran::where('guru_id', $user_id)
+        $pembelajarans = Pembelajaran::where('guru_id', $guru_id)
             ->where('semester_id', $semester_id)
             ->with(['rombel', 'mapel'])
             ->get();
