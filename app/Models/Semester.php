@@ -17,4 +17,9 @@ class Semester extends Model
         'tanggal_rapor',
         'tempat_terbit'
     ];
+
+    public function getNamaSemesterAttribute()
+    {
+        return $this->tahun_ajaran . ' ' . ($this->semester == 1 ? 'Ganjil' : 'Genap');
+    }
 }

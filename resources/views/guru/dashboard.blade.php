@@ -14,7 +14,7 @@
                 <div class="relative p-8 flex items-center justify-between z-10">
                     <div class="text-white">
                         <h3 class="text-3xl font-bold mb-2">Selamat Datang, {{ $guru->nama_lengkap ?? Auth::user()->name }}!</h3>
-                        <p class="text-red-100 text-lg">Anda login sebagai Guru pada Semester {{ $semesterAktif ? $semesterAktif->nama_semester : 'Belum Ada Semester Aktif' }}.</p>
+                        <p class="text-red-100 text-lg">Anda login sebagai Guru pada Semester {{ $semesterAktif ? $semesterAktif->tahun_ajaran . ' ' . ($semesterAktif->semester == 1 ? 'Ganjil' : 'Genap') : 'Belum Ada Semester Aktif' }}.</p>
                     </div>
                     <div class="hidden md:block">
                         <svg class="w-24 h-24 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
