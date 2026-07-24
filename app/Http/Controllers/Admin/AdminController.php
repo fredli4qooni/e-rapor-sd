@@ -17,7 +17,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $sekolah = \App\Models\Sekolah::first();
-        $semester_aktif = Semester::where('is_aktif', true)->first();
+        $active_semester_id = session('semester_id', Semester::where('is_aktif', true)->first()->id ?? 1);
+        $semester_aktif = Semester::find($active_semester_id);
         $semester_teks = $semester_aktif ? $semester_aktif->tahun_ajaran . ' ' . ($semester_aktif->semester == 1 ? 'Ganjil' : 'Genap') : '2025/2026 Ganjil';
 
         // Hitung Rekap Data
@@ -100,7 +101,8 @@ class AdminController extends Controller
 
     public function toggleInputNilai()
     {
-        $semester = Semester::where('is_aktif', true)->first();
+        $active_semester_id = session('semester_id', Semester::where('is_aktif', true)->first()->id ?? 1);
+        $semester = Semester::find($active_semester_id);
         if ($semester) {
             $semester->status_input_nilai = !$semester->status_input_nilai;
             $semester->save();
