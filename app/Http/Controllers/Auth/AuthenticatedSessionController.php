@@ -36,6 +36,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if ($request->has('semester_id')) {
+            $request->session()->put('semester_id', $request->semester_id);
+        }
+        
+        if ($request->has('sekolah_id')) {
+            $request->session()->put('sekolah_id', $request->sekolah_id);
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
