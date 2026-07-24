@@ -9,21 +9,24 @@ class PembelajaranController extends Controller
 {
     public function index(Request $request)
     {
-        $query = \App\Models\Pembelajaran::with(['rombel', 'mapel', 'guru', 'semester']);
+        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $query = \App\Models\Pembelajaran::with(['rombel', 'mapel', 'guru', 'semester'])
+                    ->where('semester_id', $active_semester_id);
         
         if ($request->has('rombel_id') && $request->rombel_id != '') {
             $query->where('rombel_id', $request->rombel_id);
         }
 
         $pembelajarans = $query->get();
-        $rombels = \App\Models\Rombel::orderBy('tingkat')->orderBy('nama_rombel')->get();
+        $rombels = \App\Models\Rombel::where('semester_id', $active_semester_id)->orderBy('tingkat')->orderBy('nama_rombel')->get();
 
         return view('admin.pembelajaran.index', compact('pembelajarans', 'rombels'));
     }
 
     public function create(Request $request)
     {
-        $rombels = \App\Models\Rombel::orderBy('tingkat')->orderBy('nama_rombel')->get();
+        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $rombels = \App\Models\Rombel::where('semester_id', $active_semester_id)->orderBy('tingkat')->orderBy('nama_rombel')->get();
         $gurus = \App\Models\Guru::orderBy('nama_lengkap')->get();
         $selected_rombel = $request->get('rombel_id');
         
@@ -47,10 +50,10 @@ class PembelajaranController extends Controller
         ]);
 
         $sekolah = \App\Models\Sekolah::first();
-        $semester = \App\Models\Semester::where('is_aktif', true)->first();
+        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
 
         // Check for duplicates
-        $exists = \App\Models\Pembelajaran::where('semester_id', $semester ? $semester->id : 1)
+        $exists = \App\Models\Pembelajaran::where('semester_id', $active_semester_id)
             ->where('rombel_id', $request->rombel_id)
             ->where('mata_pelajaran_id', $request->mata_pelajaran_id)
             ->first();
@@ -61,7 +64,7 @@ class PembelajaranController extends Controller
 
         \App\Models\Pembelajaran::create([
             'sekolah_id' => $sekolah ? $sekolah->id : 1,
-            'semester_id' => $semester ? $semester->id : 1,
+            'semester_id' => $active_semester_id,
             'rombel_id' => $request->rombel_id,
             'mata_pelajaran_id' => $request->mata_pelajaran_id,
             'guru_id' => $request->guru_id,
@@ -74,7 +77,8 @@ class PembelajaranController extends Controller
 
     public function edit(\App\Models\Pembelajaran $pembelajaran)
     {
-        $rombels = \App\Models\Rombel::orderBy('tingkat')->orderBy('nama_rombel')->get();
+        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $rombels = \App\Models\Rombel::where('semester_id', $active_semester_id)->orderBy('tingkat')->orderBy('nama_rombel')->get();
         $mapels = \App\Models\MataPelajaran::orderBy('nama_mapel')->get();
         $gurus = \App\Models\Guru::orderBy('nama_lengkap')->get();
 
