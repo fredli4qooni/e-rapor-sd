@@ -72,33 +72,7 @@
                 </div>
                 <x-input-error :messages="$errors->get('password')" class="mt-1" />
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex flex-col border border-gray-200 rounded-xl overflow-hidden bg-white/50 focus-within:bg-white focus-within:border-[#8B1515] focus-within:ring-4 focus-within:ring-[#8B1515]/10 shadow-sm transition-all duration-300">
-                        <div class="px-3 pt-2 pb-1 text-[9px] font-bold text-gray-500 uppercase tracking-wider">Sekolah</div>
-                        <select name="sekolah_id" class="px-3 pb-2 pt-1 pr-8 border-none bg-transparent focus:ring-0 text-sm text-gray-800 w-full truncate cursor-pointer">
-                            @if(isset($sekolahs) && $sekolahs->count() > 0)
-                                @foreach($sekolahs as $sekolah)
-                                    <option value="{{ $sekolah->id }}">{{ $sekolah->nama_sekolah }}</option>
-                                @endforeach
-                            @else
-                                <option disabled selected>Belum Ada</option>
-                            @endif
-                        </select>
-                    </div>
 
-                    <div class="flex flex-col border border-gray-200 rounded-xl overflow-hidden bg-white/50 focus-within:bg-white focus-within:border-[#8B1515] focus-within:ring-4 focus-within:ring-[#8B1515]/10 shadow-sm transition-all duration-300">
-                        <div class="px-3 pt-2 pb-1 text-[9px] font-bold text-gray-500 uppercase tracking-wider">Semester</div>
-                        <select name="semester_id" class="px-3 pb-2 pt-1 pr-8 border-none bg-transparent focus:ring-0 text-sm text-gray-800 w-full truncate cursor-pointer">
-                            @if(isset($semesters) && $semesters->count() > 0)
-                                @foreach($semesters as $semester)
-                                    <option value="{{ $semester->id }}">{{ $semester->tahun_ajaran }} ({{ $semester->semester == 1 ? 'Ganjil' : 'Genap' }})</option>
-                                @endforeach
-                            @else
-                                <option disabled selected>Belum Ada</option>
-                            @endif
-                        </select>
-                    </div>
-                </div>
 
                 <div class="flex justify-end pt-1">
                     @if (Route::has('password.request'))

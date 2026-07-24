@@ -19,12 +19,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        $sekolahs = \App\Models\Sekolah::all();
-        $semesters = \App\Models\Semester::all();
-
         $sekolah_utama = \App\Models\Sekolah::first();
 
-        return view('auth.login', compact('sekolahs', 'semesters', 'sekolah_utama'));
+        return view('auth.login', compact('sekolah_utama'));
     }
 
     /**
@@ -35,14 +32,6 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        if ($request->has('semester_id')) {
-            $request->session()->put('semester_id', $request->semester_id);
-        }
-        
-        if ($request->has('sekolah_id')) {
-            $request->session()->put('sekolah_id', $request->sekolah_id);
-        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

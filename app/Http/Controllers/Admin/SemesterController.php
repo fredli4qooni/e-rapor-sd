@@ -82,16 +82,13 @@ class SemesterController extends Controller
         $semester = Semester::findOrFail($id);
 
         if (!$semester->is_aktif) {
-            // Nonaktifkan yang lain
-            Semester::where('is_aktif', true)->update(['is_aktif' => false]);
-            // Aktifkan yang dipilih
+            // Nonaktifkan semua semester lain
+            \App\Models\Semester::where('id', '!=', $semester->id)->update(['is_aktif' => false]);
+            
             $semester->is_aktif = true;
             $semester->save();
-            
-            // Perbarui juga data session semester_id (jika perlu)
-            session(['semester_id' => $semester->id]);
-            
-            return redirect()->route('admin.semester.index')->with('success', 'Semester aktif berhasil diubah.');
+
+            return redirect()->route('admin.semester.index')->with('success', 'Semester berhasil diaktifkan.');
         }
 
         return redirect()->route('admin.semester.index')->with('info', 'Semester tersebut memang sudah aktif.');

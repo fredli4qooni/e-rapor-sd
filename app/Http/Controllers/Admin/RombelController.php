@@ -9,7 +9,7 @@ class RombelController extends Controller
 {
     public function index()
     {
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
         $rombels = \App\Models\Rombel::with(['semester', 'waliKelas'])
                     ->where('semester_id', $active_semester_id)
                     ->get();
@@ -34,7 +34,7 @@ class RombelController extends Controller
         ]);
 
         $sekolah = \App\Models\Sekolah::first();
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
 
         \App\Models\Rombel::create([
             'semester_id' => $active_semester_id,

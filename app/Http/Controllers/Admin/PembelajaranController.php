@@ -9,7 +9,7 @@ class PembelajaranController extends Controller
 {
     public function index(Request $request)
     {
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
         $query = \App\Models\Pembelajaran::with(['rombel', 'mapel', 'guru', 'semester'])
                     ->where('semester_id', $active_semester_id);
         
@@ -25,7 +25,7 @@ class PembelajaranController extends Controller
 
     public function create(Request $request)
     {
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
         $rombels = \App\Models\Rombel::where('semester_id', $active_semester_id)->orderBy('tingkat')->orderBy('nama_rombel')->get();
         $gurus = \App\Models\Guru::orderBy('nama_lengkap')->get();
         $selected_rombel = $request->get('rombel_id');
@@ -50,7 +50,7 @@ class PembelajaranController extends Controller
         ]);
 
         $sekolah = \App\Models\Sekolah::first();
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
 
         // Check for duplicates
         $exists = \App\Models\Pembelajaran::where('semester_id', $active_semester_id)
@@ -77,7 +77,7 @@ class PembelajaranController extends Controller
 
     public function edit(\App\Models\Pembelajaran $pembelajaran)
     {
-        $active_semester_id = session('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1);
+        $active_semester_id = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 1;
         $rombels = \App\Models\Rombel::where('semester_id', $active_semester_id)->orderBy('tingkat')->orderBy('nama_rombel')->get();
         $mapels = \App\Models\MataPelajaran::orderBy('nama_mapel')->get();
         $gurus = \App\Models\Guru::orderBy('nama_lengkap')->get();
