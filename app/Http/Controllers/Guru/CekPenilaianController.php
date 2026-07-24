@@ -112,7 +112,7 @@ class CekPenilaianController extends Controller
                 foreach ($siswa_rombels as $sr) {
                     // Hitung Smt 1..12
                     $tingkat = (int) $sr->tingkat;
-                    $ganjil_genap = strtolower($sr->semester) == 'ganjil' ? 1 : 2;
+                    $ganjil_genap = $sr->semester == 1 ? 1 : 2;
                     $smt_ke = ($tingkat - 1) * 2 + $ganjil_genap;
                     
                     $smt_map[$sr->siswa_id][$sr->smt_id] = $smt_ke;
@@ -217,7 +217,7 @@ class CekPenilaianController extends Controller
             $smt_map = [];
             foreach ($siswa_rombels as $sr) {
                 $tingkat = (int) $sr->tingkat;
-                $ganjil_genap = strtolower($sr->semester) == 'ganjil' ? 1 : 2;
+                $ganjil_genap = $sr->semester == 1 ? 1 : 2;
                 $smt_ke = ($tingkat - 1) * 2 + $ganjil_genap;
                 $smt_map[$sr->siswa_id][$sr->smt_id] = $smt_ke;
             }

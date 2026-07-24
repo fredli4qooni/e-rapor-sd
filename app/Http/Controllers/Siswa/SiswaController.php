@@ -220,9 +220,9 @@ class SiswaController extends Controller
             if (!$rombel) continue; 
             
             $tingkat = $rombel->tingkat;
-            $semester = $nilai->semester->semester; // 'Ganjil' atau 'Genap'
+            $semester = $nilai->semester->semester; // 1 atau 2
             
-            $smtIndex = ($tingkat - 1) * 2 + ($semester == 'Ganjil' ? 1 : 2);
+            $smtIndex = ($tingkat - 1) * 2 + ($semester == 1 ? 1 : 2);
             
             $mapelId = $nilai->mata_pelajaran_id;
             if (!isset($mapels[$mapelId])) {
