@@ -17,7 +17,7 @@
                         <div class="space-y-4">
                             <div class="flex flex-col md:flex-row md:items-center gap-4">
                                 <label class="w-full md:w-48 font-bold text-gray-700 text-sm">Pilih Kelas</label>
-                                <input type="text" value="{{ $rombel->tingkat . ' ' . strtoupper($rombel->nama_rombel) }}" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md p-2 max-w-3xl" readonly>
+                                <input type="text" value="{{ strtoupper($rombel->nama_rombel) }}" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md p-2 max-w-3xl" readonly>
                             </div>
                             <div class="flex flex-col md:flex-row md:items-center gap-4">
                                 <label class="w-full md:w-48 font-bold text-gray-700 text-sm">Pilih Mapel</label>

@@ -12,7 +12,7 @@
                 <div class="p-6">
                     <div class="mb-6 p-4 border border-gray-200 rounded-md bg-white flex items-center">
                         <label class="w-48 font-bold text-gray-700 text-sm">Pilih Kelas</label>
-                        <input type="text" value="{{ $rombel->tingkat . ' ' . strtoupper($rombel->nama_rombel) }}" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block p-2" readonly>
+                        <input type="text" value="{{ strtoupper($rombel->nama_rombel) }}" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block p-2" readonly>
                     </div>
 
                     <form method="POST" action="{{ route('walikelas.kehadiran.store') }}">

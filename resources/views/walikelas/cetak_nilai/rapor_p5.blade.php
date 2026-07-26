@@ -64,7 +64,7 @@
                             </div>
                             <div>
                                 <label class="block font-semibold text-sm text-gray-700 mb-1">Pilih Kelas :</label>
-                                <input type="text" value="{{ $rombel->tingkat . ' ' . strtoupper($rombel->nama_rombel) }}" class="w-full bg-blue-50 border-blue-300 rounded-md text-gray-700 text-sm p-2 focus:ring-red-500 focus:border-red-500" readonly>
+                                <input type="text" value="{{ strtoupper($rombel->nama_rombel) }}" class="w-full bg-blue-50 border-blue-300 rounded-md text-gray-700 text-sm p-2 focus:ring-red-500 focus:border-red-500" readonly>
                             </div>
                         </div>
                     </form>
