@@ -28,7 +28,7 @@
                     <div class="flex items-center mb-6">
                         <label class="w-48 text-sm font-semibold text-gray-700">Pilih Kelas :</label>
                         <div class="flex-1">
-                            <input type="text" value="{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}" readonly class="w-full bg-blue-50 border border-blue-300 text-gray-700 py-2 px-3 rounded-md text-sm cursor-not-allowed">
+                            <input type="text" value="{{ $rombel->nama_rombel }}" readonly class="w-full bg-blue-50 border border-blue-300 text-gray-700 py-2 px-3 rounded-md text-sm cursor-not-allowed">
                         </div>
                     </div>
 

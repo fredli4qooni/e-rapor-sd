@@ -48,7 +48,7 @@
                                 <tr class="hover:bg-red-50/50 transition-colors {{ $index % 2 == 0 ? 'bg-red-50/20' : 'bg-white' }}">
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-3 text-sm border border-gray-300 font-medium">{{ $item['mapel']->nama_mapel }}</td>
-                                    <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}</td>
+                                    <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->nama_rombel }}</td>
                                     <td class="px-4 py-3 text-sm border border-gray-300">{{ $item['guru']->nama_lengkap ?? '-' }}</td>
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $item['jumlah_data'] }}</td>
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $item['tertinggi'] }}</td>

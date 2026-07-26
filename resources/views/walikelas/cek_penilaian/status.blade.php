@@ -45,7 +45,7 @@
                                 <tr class="hover:bg-red-50/50 transition-colors {{ $bg_class }}">
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-3 text-sm border border-gray-300 font-medium">{{ $mapel->nama_mapel }}</td>
-                                    <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}</td>
+                                    <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->nama_rombel }}</td>
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300 {{ $cell_bg_nilai }} font-semibold text-gray-700">{{ $count_nilai }} Data</td>
                                     <td class="px-4 py-3 text-sm text-center border border-gray-300 {{ $cell_bg_deskripsi }} font-semibold text-gray-700">{{ $count_deskripsi }} Data</td>
                                 </tr>

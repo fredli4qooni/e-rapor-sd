@@ -131,7 +131,7 @@
                                         <td class="px-4 py-3 text-sm border border-gray-300 font-medium uppercase">{{ $siswa->nama_lengkap }}</td>
                                         <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $siswa->nisn }}</td>
                                         <td class="px-4 py-3 text-sm text-center border border-gray-300">{{ $siswa->nis }}</td>
-                                        <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}</td>
+                                        <td class="px-4 py-3 text-sm text-center border border-gray-300 uppercase">{{ $rombel->nama_rombel }}</td>
                                         <td class="px-4 py-3 text-sm text-center border border-gray-300">
                                             <a href="{{ route('walikelas.cetak_nilai.rapor_p5.generate', $siswa->id) }}" target="_blank" class="text-blue-500 hover:text-blue-700 hover:underline uppercase font-semibold text-xs">Rapor P5 {{ $siswa->nama_lengkap }}</a>
                                         </td>

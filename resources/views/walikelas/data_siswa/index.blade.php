@@ -46,7 +46,7 @@
                                         <td class="px-4 py-3 text-sm text-left text-gray-700 border border-gray-300 align-top uppercase">{{ $siswa->tempat_lahir ?? '-' }}, {{ $siswa->tanggal_lahir ? \Carbon\Carbon::parse($siswa->tanggal_lahir)->format('d-m-Y') : '-' }}</td>
                                         <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top capitalize">{{ $siswa->agama ?? 'Islam' }}</td>
                                         <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top">{{ $rombel->tingkat }}</td>
-                                        <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top uppercase">{{ $rombel->tingkat . ' ' . $rombel->nama_rombel }}</td>
+                                        <td class="px-4 py-3 text-sm text-center text-gray-700 border border-gray-300 align-top uppercase">{{ $rombel->nama_rombel }}</td>
                                         <td class="px-4 py-3 text-sm text-center border border-gray-300 align-top">
                                             <button @click="editing = {{ $siswa->id }}" class="bg-red-900 hover:bg-red-800 text-white text-xs font-bold py-1 px-3 rounded shadow transition-colors flex items-center justify-center gap-1 w-full mx-auto max-w-[80px]">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
