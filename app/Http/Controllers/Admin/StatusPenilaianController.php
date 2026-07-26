@@ -9,7 +9,7 @@ class StatusPenilaianController extends Controller
 {
     public function index(Request $request)
     {
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
         $selectedRombelId = $request->get('rombel_id');
         
         $mapels = [];
@@ -45,7 +45,7 @@ class StatusPenilaianController extends Controller
 
     public function statistikRapor(Request $request)
     {
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
         $selectedRombelId = $request->get('rombel_id');
         
         $statistik = [];
@@ -88,7 +88,7 @@ class StatusPenilaianController extends Controller
 
     public function statistikP3(Request $request)
     {
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
         $selectedRombelId = $request->get('rombel_id');
         
         $statistik = [];

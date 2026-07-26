@@ -9,7 +9,7 @@ class PerkembanganNilaiController extends Controller
 {
     public function index(Request $request)
     {
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
         $selectedRombelId = $request->get('rombel_id');
         $siswas = [];
 
@@ -106,7 +106,7 @@ class PerkembanganNilaiController extends Controller
 
     public function grafik(Request $request)
     {
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
         $selectedRombelId = $request->get('rombel_id');
         $selectedSiswaId = $request->get('siswa_id'); // 'all' or specific id
         

@@ -81,7 +81,7 @@ class P5KelompokController extends Controller
         $kelompok->load(['siswas', 'proyeks']);
         $semuaSiswa = \App\Models\Siswa::all(); // Nanti filter berdasarkan tingkat atau rombel jika perlu
         $semuaKegiatan = \App\Models\P5Proyek::where('fase', $kelompok->fase)->get();
-        $rombels = \App\Models\Rombel::all();
+        $rombels = \App\Models\Rombel::where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->get();
 
         return view('admin.p5.kelompok.show', compact('kelompok', 'semuaSiswa', 'semuaKegiatan', 'rombels'));
     }
