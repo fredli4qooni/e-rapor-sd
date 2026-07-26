@@ -16,11 +16,7 @@
 
             <!-- Top Banner -->
             <div class="bg-[#8b0000] text-white overflow-hidden shadow-sm rounded-lg mb-6 flex items-center p-4">
-                <div class="bg-white text-[#8b0000] rounded-md p-2 mr-4 font-bold text-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </div>
+
                 <div>
                     <h3 class="font-bold text-lg">Selamat Datang di Halaman Siswa, Aplikasi e-Rapor SD</h3>
                     <p class="text-sm">Anda sedang Login Sebagai Siswa pada {{ $sekolah->nama_sekolah ?? 'Sekolah' }}, Semester {{ $semesterAktif ? $semesterAktif->nama_semester : '-' }}</p>
