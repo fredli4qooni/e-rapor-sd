@@ -23,7 +23,7 @@
                 </div>
                 <div>
                     <h3 class="font-bold text-lg">Selamat Datang di Halaman Siswa, Aplikasi e-Rapor SD</h3>
-                    <p class="text-sm">Anda sedang Login Sebagai Siswa pada {{ $sekolah->nama_sekolah ?? 'Sekolah' }}, Semester {{ $semesterAktif ? $semesterAktif->tahun_ajaran . ' ' . $semesterAktif->semester : '-' }}</p>
+                    <p class="text-sm">Anda sedang Login Sebagai Siswa pada {{ $sekolah->nama_sekolah ?? 'Sekolah' }}, Semester {{ $semesterAktif ? $semesterAktif->nama_semester : '-' }}</p>
                 </div>
             </div>
 
