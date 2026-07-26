@@ -13,7 +13,7 @@ class KehadiranController extends Controller
 {
     public function index(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) {
             return redirect()->route('walikelas.dashboard')->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
         }

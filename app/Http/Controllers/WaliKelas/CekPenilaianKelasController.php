@@ -15,11 +15,13 @@ class CekPenilaianKelasController extends Controller
 {
     public function status(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
-        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
-
         $semesterAktif = \App\Models\Semester::where('is_aktif', true)->first();
         if (!$semesterAktif) return redirect()->back();
+
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)
+                        ->where('semester_id', $semesterAktif->id)
+                        ->first();
+        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas pada semester ini.');
 
         // Get total siswas in this rombel
         $siswa_ids = $rombel->siswas()->pluck('siswas.id');
@@ -61,11 +63,13 @@ class CekPenilaianKelasController extends Controller
 
     public function statistikRapor(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
-        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
-
         $semesterAktif = \App\Models\Semester::where('is_aktif', true)->first();
         if (!$semesterAktif) return redirect()->back();
+
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)
+                        ->where('semester_id', $semesterAktif->id)
+                        ->first();
+        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas pada semester ini.');
 
         $siswa_ids = $rombel->siswas()->pluck('siswas.id');
 
@@ -124,11 +128,13 @@ class CekPenilaianKelasController extends Controller
 
     public function statistikP3(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
-        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
-
         $semesterAktif = \App\Models\Semester::where('is_aktif', true)->first();
         if (!$semesterAktif) return redirect()->back();
+
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)
+                        ->where('semester_id', $semesterAktif->id)
+                        ->first();
+        if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas pada semester ini.');
 
         $dimensis = \App\Models\P5Dimensi::with('elemens.subElemens')->get();
         $statistik = [];

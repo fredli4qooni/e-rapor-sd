@@ -24,7 +24,7 @@ class CetakRaporController extends Controller
 {
     private function getRombel()
     {
-        return Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
+        return Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first();
     }
 
     // --- LEGER RAPOR ---

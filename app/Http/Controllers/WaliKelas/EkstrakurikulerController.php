@@ -14,7 +14,7 @@ class EkstrakurikulerController extends Controller
 {
     public function index(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
 
         $siswas = $rombel->siswas()->orderBy('nama_lengkap')->get();
@@ -55,7 +55,7 @@ class EkstrakurikulerController extends Controller
         $nilai = NilaiEkstrakurikuler::findOrFail($id);
         
         // Ensure the deleted record belongs to the rombel handled by this Wali Kelas
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first();
         if ($rombel && $nilai->rombel_id == $rombel->id) {
             $nilai->delete();
             return redirect()->back()->with('success', 'Data Nilai Ekstrakurikuler berhasil dihapus.');
@@ -66,7 +66,7 @@ class EkstrakurikulerController extends Controller
 
     public function importIndex(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) return redirect()->route('walikelas.dashboard')->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
 
         return view('walikelas.ekskul.import', compact('rombel'));
@@ -74,7 +74,7 @@ class EkstrakurikulerController extends Controller
 
     public function downloadFormat(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) return redirect()->back();
 
         $namaFile = 'Format_Nilai_Ekskul_' . str_replace(' ', '_', $rombel->nama_rombel) . '.xlsx';

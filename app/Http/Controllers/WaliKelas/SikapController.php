@@ -13,7 +13,7 @@ class SikapController extends Controller
 {
     public function index(Request $request)
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) return redirect()->back()->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
 
         $siswas = Siswa::where('sekolah_id', $rombel->sekolah_id)->get();

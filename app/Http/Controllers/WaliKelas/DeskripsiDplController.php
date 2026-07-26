@@ -22,7 +22,7 @@ class DeskripsiDplController extends Controller
             return redirect()->route('walikelas.dashboard')->with('error', 'Menu Deskripsi DPL hanya aktif mulai tahun ajaran 2025/2026.');
         }
 
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first(); 
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first(); 
         if (!$rombel) {
             return redirect()->route('walikelas.dashboard')->with('error', 'Anda belum ditugaskan sebagai Wali Kelas.');
         }

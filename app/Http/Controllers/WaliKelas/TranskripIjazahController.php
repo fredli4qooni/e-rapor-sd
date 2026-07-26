@@ -16,7 +16,7 @@ class TranskripIjazahController extends Controller
 {
     private function getRombel()
     {
-        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->first();
+        $rombel = Rombel::where('wali_kelas_id', auth()->user()->guru->id ?? 1)->where('semester_id', \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0)->first();
         return $rombel;
     }
 
