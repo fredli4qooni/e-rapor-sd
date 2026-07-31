@@ -18,7 +18,8 @@ class LaporanController extends Controller
     public function leger(Request $request)
     {
         $rombel_id = $request->get('rombel_id');
-        $rombels = Rombel::orderBy('nama_rombel')->get();
+        $activeSemesterId = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0;
+        $rombels = Rombel::where('semester_id', $activeSemesterId)->orderBy('nama_rombel')->get();
         
         $siswas = [];
         if ($rombel_id) {
@@ -40,7 +41,8 @@ class LaporanController extends Controller
     public function rapor(Request $request)
     {
         $rombel_id = $request->get('rombel_id');
-        $rombels = Rombel::orderBy('nama_rombel')->get();
+        $activeSemesterId = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0;
+        $rombels = Rombel::where('semester_id', $activeSemesterId)->orderBy('nama_rombel')->get();
         
         $siswas = [];
         if ($rombel_id) {
@@ -119,7 +121,8 @@ class LaporanController extends Controller
     public function raporP5(Request $request)
     {
         $rombel_id = $request->get('rombel_id');
-        $rombels = Rombel::orderBy('nama_rombel')->get();
+        $activeSemesterId = \App\Models\Semester::where('is_aktif', true)->first()->id ?? 0;
+        $rombels = Rombel::where('semester_id', $activeSemesterId)->orderBy('nama_rombel')->get();
         
         $siswas = [];
         if ($rombel_id) {

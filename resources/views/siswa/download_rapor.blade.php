@@ -64,14 +64,14 @@
                                         <td class="px-4 py-3 text-sm text-gray-900">
                                             @if($isActive && !$siswa->is_rapor_published)
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#4a2311] text-white">
-                                                    File File Rapor {{ $smtName }} Disembunyikan
+                                                    File Rapor {{ $smtName }} Disembunyikan
                                                 </span>
                                             @else
                                                 <a href="{{ route('siswa.cetak', ['semester_id' => $smt->id]) }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline flex items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                                     </svg>
-                                                    File File Rapor {{ $smtName }}
+                                                    File Rapor {{ $smtName }}
                                                 </a>
                                             @endif
                                         </td>
