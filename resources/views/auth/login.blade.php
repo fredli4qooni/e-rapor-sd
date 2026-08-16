@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="relative flex w-full h-full min-h-[calc(100vh-4rem)] items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden py-10 px-4"
-         style="background-image: url('{{ asset('images/WhatsApp Image 2026-08-13 at 23.10.54.jpeg') }}');">
+         style="background-image: url('{{ asset('images/16-9-bg.jpeg') }}');">
         
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/35 backdrop-blur-[2px]"></div>
