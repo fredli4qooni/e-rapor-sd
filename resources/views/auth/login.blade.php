@@ -1,30 +1,11 @@
 <x-guest-layout>
-    <style>
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-    </style>
-
-    <div class="relative flex w-full h-full min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-50 overflow-hidden">
+    <div class="relative flex w-full h-full min-h-[calc(100vh-4rem)] items-center justify-center bg-cover bg-center bg-no-repeat overflow-hidden py-10 px-4"
+         style="background-image: url('{{ asset('images/WhatsApp Image 2026-08-13 at 23.10.54.jpeg') }}');">
         
-        <div class="absolute top-0 -left-4 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
-        <div class="absolute top-0 -right-4 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-[#8B1515] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-        <div class="absolute bottom-10 right-20 w-72 h-72 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob"></div>
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/35 backdrop-blur-[2px]"></div>
 
-        <div class="relative z-10 w-full max-w-md bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/50 overflow-hidden px-8 py-10">
+        <div class="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-xl rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-white/60 overflow-hidden px-8 py-10 my-auto">
             
             <div class="flex flex-col items-center justify-center mb-8 text-center">
                 @if(isset($sekolah_utama) && $sekolah_utama->logo_sekolah)
