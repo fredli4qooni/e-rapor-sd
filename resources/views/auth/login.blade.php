@@ -1,87 +1,113 @@
 <x-guest-layout>
-    <div class="min-h-screen w-full flex flex-col bg-white">
+    <div class="min-h-screen w-full flex flex-col lg:flex-row bg-[#f8fafc]">
         
-        <!-- Border Khas Lampung di Bagian Atas -->
-        <x-pixel-aztec-border :band-height="24" :top-only="true" class="w-full shadow-sm z-30" />
-
-        <div class="flex-1 w-full flex flex-col lg:flex-row">
+        <!-- Left Side: Visual Showcase & Hero Banner -->
+        <div class="relative w-full lg:w-7/12 min-h-[480px] lg:min-h-screen bg-cover bg-center bg-no-repeat flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-white overflow-hidden"
+             style="background-image: url('{{ asset('images/16-9-bg.jpeg') }}');">
             
-            <!-- Left Side: Visual Image & School Identity -->
-            <div class="relative w-full lg:w-1/2 min-h-[320px] lg:min-h-[calc(100vh-24px)] bg-cover bg-center bg-no-repeat flex flex-col justify-between p-8 sm:p-12 lg:p-16"
-                 style="background-image: url('{{ asset('images/16-9-bg.jpeg') }}');">
+            <!-- Atmospheric Dark Red & Sunset Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1a0505]/95 via-[#5c0d0d]/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-red-950/20 mix-blend-multiply"></div>
+
+            <!-- Top Left: Logo -->
+            <div class="relative z-10">
+                @if(isset($sekolah_utama) && $sekolah_utama->logo_sekolah)
+                    <img src="{{ asset('storage/' . $sekolah_utama->logo_sekolah) }}" alt="Logo Sekolah" class="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-xl">
+                @else
+                    <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white drop-shadow-lg">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Middle / Title Section -->
+            <div class="relative z-10 my-8 sm:my-auto max-w-xl">
+                <span class="inline-block px-3.5 py-1 rounded-full bg-white text-[#C41E18] text-[11px] font-extrabold uppercase tracking-wider shadow-sm mb-3">
+                    Aplikasi e-Rapor SD
+                </span>
                 
-                <!-- Refined Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-tr from-black/90 via-black/55 to-black/35"></div>
-
-                <!-- Top: School Header Identity -->
-                <div class="relative z-10 flex items-center gap-3.5">
-                    @if(isset($sekolah_utama) && $sekolah_utama->logo_sekolah)
-                        <div class="w-12 h-12 rounded-xl bg-white/95 p-1.5 shadow-md flex items-center justify-center shrink-0">
-                            <img src="{{ asset('storage/' . $sekolah_utama->logo_sekolah) }}" alt="Logo Sekolah" class="w-full h-full object-contain">
-                        </div>
-                    @else
-                        <div class="w-11 h-11 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white shrink-0">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        </div>
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight leading-none drop-shadow-md">
+                    @php
+                        $namaSekolah = $sekolah_utama->nama_sekolah ?? 'SD NEGERI 1 PERCONTOHAN';
+                        $words = explode(' ', $namaSekolah);
+                        if (count($words) > 1) {
+                            $lastWord = array_pop($words);
+                            $firstPart = implode(' ', $words);
+                        } else {
+                            $firstPart = $namaSekolah;
+                            $lastWord = '';
+                        }
+                    @endphp
+                    <span>{{ $firstPart }}</span>
+                    @if($lastWord)
+                        <span class="block text-[#ff4d4d]">{{ $lastWord }}</span>
                     @endif
-                    <div>
-                        <h2 class="text-white font-bold text-base sm:text-lg tracking-tight leading-tight drop-shadow-sm">
-                            {{ $sekolah_utama->nama_sekolah ?? 'SD Negeri Percontohan' }}
-                        </h2>
-                        @if(isset($sekolah_utama->npsn))
-                            <p class="text-xs text-gray-300 font-mono tracking-wide mt-0.5">NPSN: {{ $sekolah_utama->npsn }}</p>
-                        @endif
+                </h1>
+                
+                <p class="mt-3.5 text-sm sm:text-base text-gray-200 leading-relaxed font-normal max-w-lg drop-shadow">
+                    Sistem informasi e-rapor untuk memudahkan pengelolaan nilai dan laporan perkembangan peserta didik.
+                </p>
+            </div>
+
+            <!-- Bottom 3 Feature Cards -->
+            <div class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 pt-4">
+                <!-- Card 1 -->
+                <div class="bg-black/30 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-lg">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#C41E18] mb-2.5 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     </div>
+                    <h4 class="font-bold text-white text-xs sm:text-sm">Aman & Terpercaya</h4>
+                    <p class="text-[10px] sm:text-[11px] text-gray-300 mt-1 leading-snug">Data tersimpan aman dengan sistem terproteksi</p>
                 </div>
 
-                <!-- Middle: Clean Editorial Headline & Description -->
-                <div class="relative z-10 my-8 sm:my-auto max-w-lg">
-                    <div class="w-10 h-1 bg-[#8B1515] rounded-full mb-4"></div>
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight drop-shadow-sm">
-                        Aplikasi e-Rapor SD
-                    </h1>
-                    <p class="mt-3 text-sm sm:text-base text-gray-200 leading-relaxed font-normal drop-shadow-sm">
-                        Sistem manajemen penilaian terintegrasi untuk pengelolaan capaian pembelajaran dan penerbitan laporan hasil belajar siswa secara transparan, akurat, dan akuntabel.
-                    </p>
-
-                    <!-- Simple Clean Specs -->
-                    <div class="mt-6 flex items-center gap-4 text-xs text-gray-300 font-medium">
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-                            Kurikulum Merdeka & 2013
-                        </span>
-                        <span class="text-gray-500">•</span>
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            Standar Kemendikbudristek
-                        </span>
+                <!-- Card 2 -->
+                <div class="bg-black/30 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-lg">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#C41E18] mb-2.5 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
+                    <h4 class="font-bold text-white text-xs sm:text-sm">Mudah Digunakan</h4>
+                    <p class="text-[10px] sm:text-[11px] text-gray-300 mt-1 leading-snug">Antarmuka sederhana dan intuitif untuk semua pengguna</p>
                 </div>
 
-                <!-- Bottom: Institutional Info & Copyright -->
-                <div class="relative z-10 pt-4 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs text-gray-300">
-                    <span>
-                        @if(isset($sekolah_utama->kecamatan) && isset($sekolah_utama->kabupaten))
-                            {{ $sekolah_utama->kecamatan }}, {{ $sekolah_utama->kabupaten }}
-                        @else
-                            Lampung, Indonesia
-                        @endif
-                    </span>
-                    <span>&copy; {{ date('Y') }} Hak Cipta Dilindungi</span>
+                <!-- Card 3 -->
+                <div class="bg-black/30 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center flex flex-col items-center justify-center shadow-lg">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#C41E18] mb-2.5 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <h4 class="font-bold text-white text-xs sm:text-sm">Laporan Akurat</h4>
+                    <p class="text-[10px] sm:text-[11px] text-gray-300 mt-1 leading-snug">Hasil laporan cepat, akurat, dan dapat dipertanggungjawabkan</p>
                 </div>
             </div>
 
-            <!-- Right Side: Clean Minimalist Login Form -->
-            <div class="w-full lg:w-1/2 min-h-[460px] lg:min-h-[calc(100vh-24px)] flex items-center justify-center p-6 sm:p-10 lg:p-12 bg-slate-50/50">
-                <div class="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-7 sm:p-9 shadow-sm">
+        </div>
+
+        <!-- Right Side: Login Card & Notice -->
+        <div class="w-full lg:w-5/12 min-h-screen flex flex-col justify-between items-center p-6 sm:p-10 lg:p-12 relative bg-[#f8fafc] overflow-hidden">
+            
+            <!-- Subtle Decorative Dots Top Right -->
+            <div class="absolute -top-6 -right-6 w-32 h-32 opacity-20 pointer-events-none"
+                 style="background-image: radial-gradient(#C41E18 2px, transparent 2px); background-size: 12px 12px;"></div>
+
+            <div class="w-full max-w-md my-auto flex flex-col gap-4">
+                
+                <!-- Main Login Card -->
+                <div class="w-full bg-white rounded-3xl p-8 sm:p-10 shadow-[0_10px_35px_rgba(0,0,0,0.05)] border border-gray-100/80">
                     
-                    <div class="mb-7">
-                        <h2 class="text-2xl font-bold text-gray-900 tracking-tight">
-                            Masuk
+                    <!-- Card Top Header -->
+                    <div class="flex flex-col items-center justify-center mb-8 text-center">
+                        @if(isset($sekolah_utama) && $sekolah_utama->logo_sekolah)
+                            <img src="{{ asset('storage/' . $sekolah_utama->logo_sekolah) }}" alt="Logo Sekolah" class="w-16 h-16 object-contain mb-3 drop-shadow">
+                        @else
+                            <div class="w-16 h-16 rounded-2xl bg-red-50 text-[#C41E18] flex items-center justify-center mb-3 shadow-inner">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            </div>
+                        @endif
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">
+                            {{ $sekolah_utama->nama_sekolah ?? 'SD Negeri 1 Percontohan' }}
                         </h2>
-                        <p class="text-sm text-gray-500 mt-1">
-                            Masukkan email dan kata sandi untuk mengakses akun Anda.
-                        </p>
+                        <span class="text-[11px] font-extrabold text-[#C41E18] uppercase tracking-widest mt-1">
+                            Aplikasi e-Rapor SD
+                        </span>
                     </div>
 
                     <x-auth-session-status class="mb-5" :status="session('status')" />
@@ -91,32 +117,40 @@
 
                         <!-- Email Input -->
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            <label for="email" class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5">
                                 Email
                             </label>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                                   class="w-full px-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#8B1515] focus:ring-1 focus:ring-[#8B1515] transition-colors"
-                                   placeholder="nama@email.com">
+                            <div class="relative flex items-center">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#C41E18]">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                </div>
+                                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                                       class="w-full pl-11 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#C41E18] focus:ring-2 focus:ring-[#C41E18]/10 transition-colors"
+                                       placeholder="mahasiswatest@radenintan.ac.id">
+                            </div>
                             <x-input-error :messages="$errors->get('email')" class="mt-1.5 text-xs" />
                         </div>
 
                         <!-- Password Input -->
                         <div x-data="{ show: false }">
                             <div class="flex items-center justify-between mb-1.5">
-                                <label for="password" class="block text-sm font-medium text-gray-700">
+                                <label for="password" class="block text-xs sm:text-sm font-semibold text-gray-700">
                                     Kata Sandi
                                 </label>
                                 @if (Route::has('password.request'))
-                                    <a class="text-xs text-[#8B1515] hover:underline font-medium" href="{{ route('password.request') }}">
+                                    <a class="text-xs font-semibold text-[#C41E18] hover:underline" href="{{ route('password.request') }}">
                                         Lupa kata sandi?
                                     </a>
                                 @endif
                             </div>
-                            <div class="relative">
+                            <div class="relative flex items-center">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
                                 <input id="password" x-bind:type="show ? 'text' : 'password'" name="password" required
-                                       class="w-full pl-3.5 pr-11 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#8B1515] focus:ring-1 focus:ring-[#8B1515] transition-colors"
+                                       class="w-full pl-11 pr-11 py-3 bg-[#f8fafc] border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:border-[#C41E18] focus:ring-2 focus:ring-[#C41E18]/10 transition-colors"
                                        placeholder="••••••••">
-                                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-[#8B1515] transition-colors focus:outline-none">
+                                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-[#C41E18] transition-colors focus:outline-none">
                                     <svg x-show="!show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -131,13 +165,37 @@
 
                         <!-- Submit Button -->
                         <div class="pt-2">
-                            <button type="submit" class="w-full bg-[#8B1515] hover:bg-[#741010] text-white font-medium py-2.5 px-4 rounded-lg shadow-sm transition-colors text-sm flex justify-center items-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-[#8B1515] outline-none">
-                                Masuk
+                            <button type="submit" class="w-full bg-[#C41E18] hover:bg-[#a81914] text-white font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-sm flex justify-center items-center gap-2 focus:ring-4 focus:ring-[#C41E18]/20 outline-none">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                <span>Masuk</span>
                             </button>
                         </div>
                     </form>
 
                 </div>
+
+                <!-- Bottom Notice Banner -->
+                <div class="w-full bg-[#fff5f5] border border-[#fed7d7] rounded-2xl p-4 flex items-center justify-between gap-3 shadow-sm relative overflow-hidden">
+                    <div class="flex items-start gap-3 relative z-10">
+                        <div class="text-[#C41E18] mt-0.5 shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold text-[#C41E18]">Sistem ini hanya untuk pengguna terdaftar.</h5>
+                            <p class="text-[11px] text-gray-600 mt-0.5">Pastikan email dan kata sandi Anda benar.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative Dots Watermark -->
+                    <div class="absolute -right-1 -bottom-1 w-20 h-20 opacity-20 pointer-events-none"
+                         style="background-image: radial-gradient(#C41E18 2px, transparent 2px); background-size: 8px 8px;"></div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="text-center text-xs text-gray-500 py-2">
+                &copy; 2026 {{ $sekolah_utama->nama_sekolah ?? 'SD Negeri 1 Percontohan' }}. Hak Cipta Dilindungi.
             </div>
 
         </div>
