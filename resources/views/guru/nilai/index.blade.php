@@ -127,14 +127,18 @@
                                                     <!-- Checkboxes Tertinggi -->
                                                     @foreach($tps as $tp)
                                                         <td class="px-2 py-3 text-center border-r border-gray-200">
-                                                            <input type="checkbox" name="nilai[{{ $siswa->id }}][tp_tertinggi][]" value="{{ $tp->id }}" {{ in_array($tp->id, $tpTinggiArray) ? 'checked' : '' }} class="rounded text-green-600 focus:ring-green-500 w-4 h-4">
+                                                            <input type="checkbox" name="nilai[{{ $siswa->id }}][tp_tertinggi][]" value="{{ $tp->id }}" {{ in_array($tp->id, $tpTinggiArray) ? 'checked' : '' }} 
+                                                                   data-siswa="{{ $siswa->id }}" data-tp="{{ $tp->id }}" data-type="tertinggi"
+                                                                   class="tp-checkbox rounded text-green-600 focus:ring-green-500 w-4 h-4 cursor-pointer" title="Capaian Tertinggi TP {{ $loop->iteration }}">
                                                         </td>
                                                     @endforeach
                                                     
                                                     <!-- Checkboxes Terendah -->
                                                     @foreach($tps as $tp)
                                                         <td class="px-2 py-3 text-center border-r border-gray-200">
-                                                            <input type="checkbox" name="nilai[{{ $siswa->id }}][tp_terendah][]" value="{{ $tp->id }}" {{ in_array($tp->id, $tpRendahArray) ? 'checked' : '' }} class="rounded text-yellow-500 focus:ring-yellow-500 w-4 h-4">
+                                                            <input type="checkbox" name="nilai[{{ $siswa->id }}][tp_terendah][]" value="{{ $tp->id }}" {{ in_array($tp->id, $tpRendahArray) ? 'checked' : '' }} 
+                                                                   data-siswa="{{ $siswa->id }}" data-tp="{{ $tp->id }}" data-type="terendah"
+                                                                   class="tp-checkbox rounded text-yellow-500 focus:ring-yellow-500 w-4 h-4 cursor-pointer" title="Capaian Terendah TP {{ $loop->iteration }}">
                                                         </td>
                                                     @endforeach
                                                 </tr>
@@ -164,4 +168,23 @@
         </div>
     </div>
 
+    <!-- Script Mutually Exclusive TP Checkbox -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.tp-checkbox').forEach(function(cb) {
+                cb.addEventListener('change', function() {
+                    if (this.checked) {
+                        var siswaId = this.getAttribute('data-siswa');
+                        var tpId = this.getAttribute('data-tp');
+                        var type = this.getAttribute('data-type');
+                        var oppositeType = (type === 'tertinggi') ? 'terendah' : 'tertinggi';
+                        var oppositeCb = document.querySelector('.tp-checkbox[data-siswa="' + siswaId + '"][data-tp="' + tpId + '"][data-type="' + oppositeType + '"]');
+                        if (oppositeCb) {
+                            oppositeCb.checked = false;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </x-app-layout>

@@ -302,7 +302,8 @@
                     </button>
                     <div x-show="open" x-collapse style="display: none;" class="bg-red-900/50">
                         <a href="{{ route('walikelas.data_siswa.index') }}" class="{{ request()->routeIs('walikelas.data_siswa.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Update Data Siswa</a>
-                        <a href="{{ route('walikelas.kehadiran.index') }}" class="{{ request()->routeIs('walikelas.kehadiran.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Input Kehadiran</a>
+                        <a href="{{ route('walikelas.presensi.index') }}" class="{{ request()->routeIs('walikelas.presensi.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Presensi Harian</a>
+                        <a href="{{ route('walikelas.kehadiran.index') }}" class="{{ request()->routeIs('walikelas.kehadiran.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Rekap Kehadiran (Semester)</a>
                         <a href="{{ route('walikelas.ekskul.index') }}" class="{{ request()->routeIs('walikelas.ekskul.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Input Nilai Ekskul</a>
                         <a href="{{ route('walikelas.catatan.index') }}" class="{{ request()->routeIs('walikelas.catatan.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Input Catatan Walas</a>
                         <a href="{{ route('walikelas.kenaikan.index') }}" class="{{ request()->routeIs('walikelas.kenaikan.*') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Input Kenaikan Kelas</a>
@@ -455,6 +456,14 @@
                 </div>
             @endif
         </nav>
+    </div>
+
+    <!-- Panduan Aplikasi Menu -->
+    <div class="px-3 pt-2 pb-1 border-t border-red-900/50">
+        <a href="{{ route('panduan.index') }}" class="{{ request()->routeIs('panduan.*') ? 'bg-red-800 text-white font-bold' : 'text-red-100 hover:bg-red-800 hover:text-white' }} group w-full flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors">
+            <svg class="mr-3 flex-shrink-0 h-5 w-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            Panduan Aplikasi
+        </a>
     </div>
 
     <!-- Footer Sidebar / Keluar -->

@@ -25,7 +25,7 @@ class NilaiRaporImport implements ToCollection, WithHeadingRow
         
         $rombel = Rombel::find($rombel_id);
         $this->tps = TujuanPembelajaran::where('mata_pelajaran_id', $mata_pelajaran_id)
-            ->where('tingkat', $rombel->tingkat)
+            ->where('tingkat', $rombel->tingkat ?? null)
             ->where('semester_id', $semester_id)
             ->where('is_aktif', true)
             ->get()
@@ -34,9 +34,47 @@ class NilaiRaporImport implements ToCollection, WithHeadingRow
 
     public function collection(Collection $rows)
     {
+        if ($rows->isEmpty()) {
+            throw new \Exception("File Excel yang diunggah kosong! Pastikan file berisi data siswa.");
+        }
+
+        // Cek baris pertama untuk validasi keberadaan kolom esensial
+        $firstRow = $rows->first()->toArray();
+        $keys = array_keys($firstRow);
+
+        $hasIdSiswa = false;
+        $hasNilaiAkhir = false;
+
+        foreach ($keys as $k) {
+            $normKey = strtolower(str_replace([' ', '_', '-', '(', ')'], '', $k));
+            if (str_contains($normKey, 'idsiswajangandiubah') || str_contains($normKey, 'idsiswa') || str_contains($normKey, 'siswaid')) {
+                $hasIdSiswa = true;
+            }
+            if (str_contains($normKey, 'nilaiakhir') || str_contains($normKey, 'nilai')) {
+                $hasNilaiAkhir = true;
+            }
+        }
+
+        if (!$hasIdSiswa || !$hasNilaiAkhir) {
+            throw new \Exception("Format file Excel tidak sesuai dengan template! Pastikan kolom 'ID Siswa (JANGAN DIUBAH)' dan 'Nilai Akhir' ada dan tidak diubah.");
+        }
+
+        $importedCount = 0;
+
         foreach ($rows as $row) {
-            $siswa_id = $row['id_siswa_jangan_diubah'];
-            $nilai_akhir = $row['nilai_akhir'];
+            // Find siswa_id and nilai_akhir dynamically
+            $siswa_id = null;
+            $nilai_akhir = null;
+
+            foreach ($row as $key => $val) {
+                $normKey = strtolower(str_replace([' ', '_', '-', '(', ')'], '', $key));
+                if (str_contains($normKey, 'idsiswajangandiubah') || str_contains($normKey, 'idsiswa') || str_contains($normKey, 'siswaid')) {
+                    $siswa_id = $val;
+                }
+                if (str_contains($normKey, 'nilaiakhir')) {
+                    $nilai_akhir = $val;
+                }
+            }
 
             if (!$siswa_id || !is_numeric($nilai_akhir)) {
                 continue;
@@ -46,23 +84,34 @@ class NilaiRaporImport implements ToCollection, WithHeadingRow
             $tpTerendahIds = [];
 
             foreach ($this->tps as $tp) {
-                // Construct the expected column keys based on headings logic
-                // The headings generate: "Capaian Tertinggi TP 1 [ID:X] (Isi T)"
-                // Maatwebsite Excel converts this to snake_case usually, or removes symbols
-                // It's safer to loop over $row keys to find the one containing the ID
                 foreach ($row as $key => $val) {
+                    $valClean = strtoupper(trim((string)$val));
+                    
+                    // Format baru: 1 kolom TP (berisi 'T' atau 'R')
+                    if (str_contains($key, 'tp') && str_contains($key, 'id'.$tp->id)) {
+                        if ($valClean === 'T') {
+                            $tpTertinggiIds[] = $tp->id;
+                        } elseif ($valClean === 'R') {
+                            $tpTerendahIds[] = $tp->id;
+                        }
+                    }
+
+                    // Backward compatibility untuk format lama (2 kolom)
                     if (str_contains($key, 'capaian_tertinggi_tp') && str_contains($key, 'id'.$tp->id)) {
-                        if (strtoupper(trim($val)) === 'T') {
+                        if ($valClean === 'T') {
                             $tpTertinggiIds[] = $tp->id;
                         }
                     }
                     if (str_contains($key, 'capaian_terendah_tp') && str_contains($key, 'id'.$tp->id)) {
-                        if (strtoupper(trim($val)) === 'R') {
+                        if ($valClean === 'R') {
                             $tpTerendahIds[] = $tp->id;
                         }
                     }
                 }
             }
+
+            // Pastikan TP Tertinggi dan Terendah saling eksklusif
+            $tpTerendahIds = array_diff($tpTerendahIds, $tpTertinggiIds);
 
             $nilaiRapor = NilaiRapor::updateOrCreate(
                 [
@@ -72,8 +121,8 @@ class NilaiRaporImport implements ToCollection, WithHeadingRow
                 ],
                 [
                     'nilai_akhir' => $nilai_akhir,
-                    'tp_tertinggi' => $tpTertinggiIds,
-                    'tp_terendah' => $tpTerendahIds,
+                    'tp_tertinggi' => array_values($tpTertinggiIds),
+                    'tp_terendah' => array_values($tpTerendahIds),
                 ]
             );
 
@@ -112,6 +161,12 @@ class NilaiRaporImport implements ToCollection, WithHeadingRow
                     'deskripsi_terendah' => $deskripsiTerendah,
                 ]
             );
+
+            $importedCount++;
+        }
+
+        if ($importedCount === 0) {
+            throw new \Exception("Tidak ada data nilai yang berhasil diimpor! Pastikan nilai akhir telah diisi dengan angka yang valid.");
         }
     }
 }

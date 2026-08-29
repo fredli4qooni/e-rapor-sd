@@ -312,6 +312,9 @@ Route::middleware(['auth', 'can:guru'])->prefix('wali-kelas')->name('walikelas.'
     Route::get('data-siswa', [\App\Http\Controllers\WaliKelas\DataSiswaController::class, 'index'])->name('data_siswa.index');
     Route::post('data-siswa/{id}', [\App\Http\Controllers\WaliKelas\DataSiswaController::class, 'update'])->name('data_siswa.update');
 
+    Route::get('presensi', [\App\Http\Controllers\WaliKelas\PresensiHarianController::class, 'index'])->name('presensi.index');
+    Route::post('presensi', [\App\Http\Controllers\WaliKelas\PresensiHarianController::class, 'store'])->name('presensi.store');
+
     Route::get('kehadiran', [\App\Http\Controllers\WaliKelas\KehadiranController::class, 'index'])->name('kehadiran.index');
     Route::post('kehadiran', [\App\Http\Controllers\WaliKelas\KehadiranController::class, 'store'])->name('kehadiran.store');
 
@@ -376,6 +379,11 @@ Route::middleware(['auth', 'can:kepsek'])->prefix('kepsek')->name('kepsek.')->gr
         Route::get('/leger', [\App\Http\Controllers\Kepsek\LaporanController::class, 'leger'])->name('leger');
         Route::get('/leger/download/{rombel_id}', [\App\Http\Controllers\Kepsek\LaporanController::class, 'legerDownload'])->name('leger_download');
     });
+});
+
+// Panduan Aplikasi
+Route::middleware(['auth'])->group(function () {
+    Route::get('/panduan', [\App\Http\Controllers\PanduanController::class, 'index'])->name('panduan.index');
 });
 
 require __DIR__.'/auth.php';

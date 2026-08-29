@@ -162,7 +162,8 @@ class NilaiDplController extends Controller
             );
             return redirect()->route('guru.nilai_dpl.index', ['rombel_id' => $request->rombel_id, 'dimensi_id' => $request->dimensi_id])->with('success', 'Nilai DPL berhasil diimpor.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal mengimpor file! Pastikan format sesuai dengan template.');
+            $msg = $e->getMessage() ?: 'Gagal mengimpor file! Pastikan format sesuai dengan template.';
+            return back()->with('error', $msg);
         }
     }
 }

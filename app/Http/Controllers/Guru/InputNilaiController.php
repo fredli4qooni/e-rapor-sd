@@ -102,6 +102,9 @@ class InputNilaiController extends Controller
                 $tpTertinggiIds = $data['tp_tertinggi'] ?? [];
                 $tpTerendahIds = $data['tp_terendah'] ?? [];
 
+                // Pastikan TP Tertinggi dan Terendah saling eksklusif (tidak ada TP yang sama)
+                $tpTerendahIds = array_diff($tpTerendahIds, $tpTertinggiIds);
+
                 // Format arrays for JSON storage
                 $tpTertinggiJson = array_values($tpTertinggiIds);
                 $tpTerendahJson = array_values($tpTerendahIds);
@@ -279,7 +282,8 @@ class InputNilaiController extends Controller
             );
             return redirect()->route('guru.nilai.index', ['rombel_id' => $request->rombel_id, 'mata_pelajaran_id' => $request->mata_pelajaran_id])->with('success', 'Nilai Rapor berhasil diimpor dan deskripsi otomatis telah digenerate.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal mengimpor file! Pastikan format sesuai dengan template.');
+            $msg = $e->getMessage() ?: 'Gagal mengimpor file! Pastikan format sesuai dengan template.';
+            return back()->with('error', $msg);
         }
     }
 }

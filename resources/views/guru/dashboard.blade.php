@@ -145,7 +145,7 @@
                         <h3 class="text-xl font-bold text-gray-800">Panduan Aplikasi</h3>
                     </div>
                     <div class="space-y-4">
-                        <a href="{{ asset('panduan.pdf') }}" target="_blank" class="block w-full text-left bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md transition-all duration-200 group">
+                        <a href="{{ route('panduan.index') }}" class="block w-full text-left bg-gray-50 p-4 rounded-lg border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md transition-all duration-200 group">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <h4 class="text-lg font-bold text-indigo-700 group-hover:text-indigo-800">Panduan Aplikasi e-Rapor</h4>

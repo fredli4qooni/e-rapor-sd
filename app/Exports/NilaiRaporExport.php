@@ -44,8 +44,8 @@ class NilaiRaporExport implements FromCollection, WithHeadings
             ];
 
             foreach ($this->tps as $index => $tp) {
-                $row['tp_tertinggi_' . $tp->id] = ''; // Format: T / Kosong
-                $row['tp_terendah_' . $tp->id] = ''; // Format: R / Kosong
+                // 1 Kolom per TP: Diisi 'T' (Tertinggi), 'R' (Terendah), atau dikosongkan
+                $row['tp_' . $tp->id] = '';
             }
 
             $data->push((object)$row);
@@ -63,8 +63,7 @@ class NilaiRaporExport implements FromCollection, WithHeadings
         ];
 
         foreach ($this->tps as $index => $tp) {
-            $headings[] = 'Capaian Tertinggi TP ' . ($index + 1) . ' [ID:'.$tp->id.'] (Isi T)';
-            $headings[] = 'Capaian Terendah TP ' . ($index + 1) . ' [ID:'.$tp->id.'] (Isi R)';
+            $headings[] = 'TP ' . ($index + 1) . ' [ID:'.$tp->id.'] (Isi T/R)';
         }
 
         return $headings;
