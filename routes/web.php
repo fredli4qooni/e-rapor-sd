@@ -312,9 +312,6 @@ Route::middleware(['auth', 'can:guru'])->prefix('wali-kelas')->name('walikelas.'
     Route::get('data-siswa', [\App\Http\Controllers\WaliKelas\DataSiswaController::class, 'index'])->name('data_siswa.index');
     Route::post('data-siswa/{id}', [\App\Http\Controllers\WaliKelas\DataSiswaController::class, 'update'])->name('data_siswa.update');
 
-    Route::get('presensi', [\App\Http\Controllers\WaliKelas\PresensiHarianController::class, 'index'])->name('presensi.index');
-    Route::post('presensi', [\App\Http\Controllers\WaliKelas\PresensiHarianController::class, 'store'])->name('presensi.store');
-
     Route::get('kehadiran', [\App\Http\Controllers\WaliKelas\KehadiranController::class, 'index'])->name('kehadiran.index');
     Route::post('kehadiran', [\App\Http\Controllers\WaliKelas\KehadiranController::class, 'store'])->name('kehadiran.store');
 

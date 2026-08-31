@@ -53,28 +53,9 @@ class SiswaController extends Controller
         $chart_nilai_labels = $grafik_nilai ? collect($grafik_nilai)->pluck('mapel_label')->toJson() : '[]';
         $chart_nilai_data = $grafik_nilai ? collect($grafik_nilai)->pluck('rata_rata')->map(fn($v) => round($v, 2))->toJson() : '[]';
 
-        // Data Presensi Harian Siswa
-        $presensiHariIni = \App\Models\PresensiHarian::where('siswa_id', $siswa->id)
-            ->where('tanggal', date('Y-m-d'))
-            ->first();
-
-        $riwayatPresensi = \App\Models\PresensiHarian::where('siswa_id', $siswa->id)
-            ->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)
-            ->orderBy('tanggal', 'desc')
-            ->take(15)
-            ->get();
-
-        $rekapHarian = [
-            'hadir' => \App\Models\PresensiHarian::where('siswa_id', $siswa->id)->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)->where('status', 'H')->count(),
-            'sakit' => \App\Models\PresensiHarian::where('siswa_id', $siswa->id)->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)->where('status', 'S')->count(),
-            'izin' => \App\Models\PresensiHarian::where('siswa_id', $siswa->id)->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)->where('status', 'I')->count(),
-            'alpa' => \App\Models\PresensiHarian::where('siswa_id', $siswa->id)->where('semester_id', $semesterAktif ? $semesterAktif->id : 0)->where('status', 'A')->count(),
-        ];
-
         return view('siswa.dashboard', compact(
             'siswa', 'sekolah', 'semesterAktif', 'rombel', 'kurikulum',
-            'ekskuls', 'kelompokP5s', 'chart_nilai_labels', 'chart_nilai_data',
-            'presensiHariIni', 'riwayatPresensi', 'rekapHarian'
+            'ekskuls', 'kelompokP5s', 'chart_nilai_labels', 'chart_nilai_data'
         ));
     }
 

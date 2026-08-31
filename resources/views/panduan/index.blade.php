@@ -23,7 +23,7 @@
                         Panduan Lengkap Penggunaan e-Rapor SD
                     </h1>
                     <p class="mt-2 text-sm sm:text-base text-red-100 leading-relaxed font-normal">
-                        Pelajari alur kerja, pengisian tujuan pembelajaran, input nilai, presensi harian, hingga pencetakan buku laporan hasil belajar peserta didik.
+                        Pelajari alur kerja, pengisian tujuan pembelajaran, input nilai rapor, rekap kehadiran, hingga pencetakan buku laporan hasil belajar peserta didik.
                     </p>
                 </div>
                 <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-2xl border border-white/20 flex items-center justify-center text-white shrink-0 shadow-inner">
@@ -115,20 +115,20 @@
                         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
                             <h4 class="font-bold text-gray-900 text-sm flex items-center gap-2">
                                 <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">A</span>
-                                Presensi Harian Siswa
+                                Update Data Siswa
                             </h4>
                             <p class="text-xs text-gray-600 mt-2 leading-relaxed">
-                                Buka menu <strong>Presensi Harian</strong> setiap hari sekolah. Gunakan tombol cepat <em>"Set Semua Hadir"</em> atau ubah status ke <strong>Sakit (S)</strong>, <strong>Izin (I)</strong>, atau <strong>Alpa (A)</strong> bagi siswa yang tidak hadir. Data ini langsung dapat dilihat orang tua siswa secara realtime.
+                                Buka menu <strong>Update Data Siswa</strong> untuk memverifikasi dan memperbarui data identitas peserta didik, NISN, nama orang tua, dan alamat.
                             </p>
                         </div>
 
                         <div class="p-5 bg-gray-50 rounded-xl border border-gray-200">
                             <h4 class="font-bold text-gray-900 text-sm flex items-center gap-2">
                                 <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">B</span>
-                                Rekap Kehadiran Semester
+                                Input Kehadiran Siswa
                             </h4>
                             <p class="text-xs text-gray-600 mt-2 leading-relaxed">
-                                Masuk ke menu <strong>Input Kehadiran</strong> untuk mengisi total rekap ketidakhadiran (Sakit, Izin, Alpa) yang akan dicetak pada halaman rapor siswa.
+                                Masuk ke menu <strong>Input Kehadiran</strong> untuk mengisi rekapitulasi ketidakhadiran (Sakit, Izin, Tanpa Keterangan) selama satu semester yang dicetak pada buku rapor.
                             </p>
                         </div>
 
@@ -170,9 +170,9 @@
                             <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center mb-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </div>
-                            <h4 class="font-bold text-gray-900 text-base">Pantau Presensi Harian</h4>
+                            <h4 class="font-bold text-gray-900 text-base">Rekap Capaian & Nilai</h4>
                             <p class="text-xs text-gray-600 mt-1.5 leading-relaxed">
-                                Lihat status kehadiran anak hari ini di kartu <strong>Status Kehadiran Hari Ini</strong> pada dashboard utama. Status akan langsung terupdate setelah wali kelas melakukan absensi.
+                                Buka menu <strong>Rekap Capaian</strong> untuk melihat perolehan nilai rapor akademik dan deskripsi capaian pembelajaran peserta didik per mata pelajaran.
                             </p>
                         </div>
 
