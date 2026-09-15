@@ -155,7 +155,7 @@ class CetakRaporController extends Controller
         foreach ($siswas as $siswa) {
             $siswa->kelas = $rombel->nama_rombel;
             $siswa->fase = $rombel->fase;
-            $siswa->nilaiRapors = NilaiRapor::with('mapel')->where('siswa_id', $siswa->id)->where('semester_id', $rombel->semester_id)->get();
+            $siswa->nilaiRapors = NilaiRapor::with(['mapel', 'deskripsi'])->where('siswa_id', $siswa->id)->where('semester_id', $rombel->semester_id)->get();
             $siswa->kehadiran = Kehadiran::where('siswa_id', $siswa->id)->where('semester_id', $rombel->semester_id)->first();
             $siswa->catatan = CatatanWaliKelas::where('siswa_id', $siswa->id)->where('semester_id', $rombel->semester_id)->first();
             $siswa->kenaikan = KenaikanKelas::where('siswa_id', $siswa->id)->where('semester_id', $rombel->semester_id)->first();

@@ -62,4 +62,39 @@ class NilaiRapor extends Model
         }
         return '-';
     }
+
+    public function getCapaianKompetensiAttribute()
+    {
+        $descTertinggi = null;
+        $descTerendah = null;
+
+        if ($this->deskripsi) {
+            $descTertinggi = $this->deskripsi->deskripsi_tertinggi;
+            $descTerendah = $this->deskripsi->deskripsi_terendah;
+        }
+
+        if (!$descTertinggi || $descTertinggi === '-') {
+            $t = $this->deskripsi_tertinggi;
+            if ($t && $t !== '-') {
+                $descTertinggi = "Menunjukkan penguasaan yang sangat baik dalam " . rtrim(trim($t), '.') . ".";
+            }
+        }
+
+        if (!$descTerendah || $descTerendah === '-') {
+            $r = $this->deskripsi_terendah;
+            if ($r && $r !== '-') {
+                $descTerendah = "Perlu pendampingan dalam " . rtrim(trim($r), '.') . ".";
+            }
+        }
+
+        $parts = [];
+        if ($descTertinggi && $descTertinggi !== '-') {
+            $parts[] = $descTertinggi;
+        }
+        if ($descTerendah && $descTerendah !== '-') {
+            $parts[] = $descTerendah;
+        }
+
+        return count($parts) > 0 ? implode("\n\n", $parts) : '-';
+    }
 }

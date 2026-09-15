@@ -79,7 +79,7 @@ class SiswaController extends Controller
         $siswa->kelas = $rombel ? $rombel->nama_rombel : '-';
         $siswa->fase = $rombel ? $rombel->fase : '-';
 
-        $nilaiQuery = NilaiRapor::with('mapel')->where('siswa_id', $siswa->id);
+        $nilaiQuery = NilaiRapor::with(['mapel', 'deskripsi'])->where('siswa_id', $siswa->id);
         if ($semester_id) $nilaiQuery->where('semester_id', $semester_id);
         $siswa->nilaiRapors = $nilaiQuery->get();
         

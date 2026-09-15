@@ -60,11 +60,38 @@
         </tr>
         @if(isset($nilaiRapors) && $nilaiRapors->count() > 0)
             @foreach($nilaiRapors as $index => $nilai)
+            @php
+                $descTertinggi = $nilai->deskripsi->deskripsi_tertinggi ?? null;
+                $descTerendah = $nilai->deskripsi->deskripsi_terendah ?? null;
+
+                if (!$descTertinggi || $descTertinggi === '-') {
+                    $t = $nilai->deskripsi_tertinggi;
+                    if ($t && $t !== '-') {
+                        $descTertinggi = "Sangat baik dalam " . rtrim(trim($t), '.') . ".";
+                    }
+                }
+                if (!$descTerendah || $descTerendah === '-') {
+                    $r = $nilai->deskripsi_terendah;
+                    if ($r && $r !== '-') {
+                        $descTerendah = "Perlu bimbingan dalam " . rtrim(trim($r), '.') . ".";
+                    }
+                }
+            @endphp
             <tr>
-                <td class="text-center">{{ $index + 1 }}</td>
-                <td>{{ $nilai->mapel->nama_mapel ?? 'Unknown' }}</td>
-                <td class="text-center">{{ $nilai->nilai_akhir }}</td>
-                <td>{{ $nilai->capaian_kompetensi }}</td>
+                <td class="text-center" style="vertical-align: top;">{{ $index + 1 }}</td>
+                <td style="vertical-align: top; font-weight: bold;">{{ $nilai->mapel->nama_mapel ?? 'Unknown' }}</td>
+                <td class="text-center" style="vertical-align: top; font-weight: bold;">{{ round($nilai->nilai_akhir) }}</td>
+                <td style="vertical-align: top; font-size: 10px; line-height: 1.4;">
+                    @if($descTertinggi && $descTertinggi !== '-')
+                        <div style="margin-bottom: 4px;">{{ $descTertinggi }}</div>
+                    @endif
+                    @if($descTerendah && $descTerendah !== '-')
+                        <div>{{ $descTerendah }}</div>
+                    @endif
+                    @if((!$descTertinggi || $descTertinggi === '-') && (!$descTerendah || $descTerendah === '-'))
+                        -
+                    @endif
+                </td>
             </tr>
             @endforeach
         @else
