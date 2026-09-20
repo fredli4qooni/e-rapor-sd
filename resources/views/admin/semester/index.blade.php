@@ -40,6 +40,8 @@
                             <th class="px-4 py-3">Tahun Ajaran</th>
                             <th class="px-4 py-3 text-center">Semester</th>
                             <th class="px-4 py-3">Kurikulum</th>
+                            <th class="px-4 py-3">Periode Semester</th>
+                            <th class="px-4 py-3">Batas Input Nilai</th>
                             <th class="px-4 py-3 text-center">Status</th>
                             <th class="px-4 py-3 text-center">Aksi</th>
                         </tr>
@@ -51,6 +53,35 @@
                                 <td class="px-4 py-3 font-semibold">{{ $semester->tahun_ajaran }}</td>
                                 <td class="px-4 py-3 text-center">{{ $semester->semester == 1 ? 'Ganjil' : 'Genap' }}</td>
                                 <td class="px-4 py-3">{{ $semester->kurikulum }}</td>
+                                <td class="px-4 py-3 text-xs text-gray-600">
+                                    @if($semester->tanggal_mulai && $semester->tanggal_selesai)
+                                        <span class="font-medium text-gray-800">{{ $semester->tanggal_mulai->format('d/m/Y') }}</span> s/d <span class="font-medium text-gray-800">{{ $semester->tanggal_selesai->format('d/m/Y') }}</span>
+                                    @else
+                                        <span class="text-gray-400 italic">Belum diatur</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-xs">
+                                    @if($semester->deadline_input_nilai)
+                                        <span class="font-semibold {{ $semester->sisa_hari_input !== null && $semester->sisa_hari_input <= 7 ? 'text-red-600' : 'text-gray-800' }}">
+                                            {{ $semester->deadline_input_nilai->translatedFormat('d M Y') }}
+                                        </span>
+                                        @if($semester->sisa_hari_input !== null && $semester->is_aktif)
+                                            <div class="mt-0.5">
+                                                @if($semester->sisa_hari_input < 0)
+                                                    <span class="text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">Lewat ({{ abs($semester->sisa_hari_input) }} hari)</span>
+                                                @elseif($semester->sisa_hari_input === 0)
+                                                    <span class="text-[10px] bg-red-600 text-white px-1.5 py-0.5 rounded font-bold">Hari Ini Terakhir!</span>
+                                                @elseif($semester->sisa_hari_input <= 14)
+                                                    <span class="text-[10px] bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded font-bold">Sisa {{ $semester->sisa_hari_input }} hari</span>
+                                                @else
+                                                    <span class="text-[10px] text-gray-500">Sisa {{ $semester->sisa_hari_input }} hari</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @else
+                                        <span class="text-gray-400 italic">Belum diatur</span>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 text-center">
                                     @if($semester->is_aktif)
                                         <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-400">Aktif</span>
@@ -79,7 +110,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-4 py-3 text-center text-gray-500">Belum ada data semester.</td>
+                                <td colspan="8" class="px-4 py-3 text-center text-gray-500">Belum ada data semester.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -135,7 +166,38 @@
                                     <input type="text" name="kurikulum" x-model="formData.kurikulum" required placeholder="Contoh: Merdeka" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm">
                                 </div>
 
-                                <div x-show="!isEdit" class="flex items-center">
+                                <!-- Periode Semester (Tanggal Mulai & Selesai) -->
+                                <div class="border-t border-gray-200 pt-3">
+                                    <span class="block text-xs font-bold text-red-800 uppercase mb-2">Periode Semester</span>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-xs text-gray-600">Tanggal Mulai</label>
+                                            <input type="date" name="tanggal_mulai" x-model="formData.tanggal_mulai" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 text-xs">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-600">Tanggal Selesai</label>
+                                            <input type="date" name="tanggal_selesai" x-model="formData.tanggal_selesai" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 text-xs">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Periode & Deadline Input Nilai Guru -->
+                                <div class="border-t border-gray-200 pt-3">
+                                    <span class="block text-xs font-bold text-red-800 uppercase mb-2">Jadwal Input Nilai Guru</span>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-xs text-gray-600">Mulai Input Nilai</label>
+                                            <input type="date" name="tanggal_mulai_input" x-model="formData.tanggal_mulai_input" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 text-xs">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-600 font-semibold text-red-700">Batas Akhir (Deadline)</label>
+                                            <input type="date" name="tanggal_akhir_input" x-model="formData.tanggal_akhir_input" class="mt-1 block w-full rounded-md border-red-300 shadow-sm focus:border-red-500 focus:ring-red-500 text-xs font-medium">
+                                        </div>
+                                    </div>
+                                    <p class="text-[11px] text-gray-500 mt-1">Jika batas akhir dikosongkan, sistem akan mengacu pada tanggal rapor.</p>
+                                </div>
+
+                                <div x-show="!isEdit" class="flex items-center pt-2">
                                     <input id="is_aktif" name="is_aktif" type="checkbox" value="1" class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded">
                                     <label for="is_aktif" class="ml-2 block text-sm text-gray-900">
                                         Langsung Jadikan Semester Aktif
@@ -168,7 +230,11 @@
                 formData: {
                     tahun_ajaran: '{{ old('tahun_ajaran') ?? '' }}',
                     semester: '{{ old('semester') ?? '1' }}',
-                    kurikulum: '{{ old('kurikulum') ?? 'Merdeka' }}'
+                    kurikulum: '{{ old('kurikulum') ?? 'Merdeka' }}',
+                    tanggal_mulai: '{{ old('tanggal_mulai') ?? '' }}',
+                    tanggal_selesai: '{{ old('tanggal_selesai') ?? '' }}',
+                    tanggal_mulai_input: '{{ old('tanggal_mulai_input') ?? '' }}',
+                    tanggal_akhir_input: '{{ old('tanggal_akhir_input') ?? '' }}'
                 },
                 openModal(semester = null) {
                     if (semester) {
@@ -177,12 +243,20 @@
                         this.formData.tahun_ajaran = semester.tahun_ajaran;
                         this.formData.semester = semester.semester;
                         this.formData.kurikulum = semester.kurikulum;
+                        this.formData.tanggal_mulai = semester.tanggal_mulai ? semester.tanggal_mulai.substring(0, 10) : '';
+                        this.formData.tanggal_selesai = semester.tanggal_selesai ? semester.tanggal_selesai.substring(0, 10) : '';
+                        this.formData.tanggal_mulai_input = semester.tanggal_mulai_input ? semester.tanggal_mulai_input.substring(0, 10) : '';
+                        this.formData.tanggal_akhir_input = semester.tanggal_akhir_input ? semester.tanggal_akhir_input.substring(0, 10) : '';
                     } else {
                         this.isEdit = false;
                         this.formAction = '{{ route('admin.semester.store') }}';
                         this.formData.tahun_ajaran = '';
                         this.formData.semester = '1';
                         this.formData.kurikulum = 'Merdeka';
+                        this.formData.tanggal_mulai = '';
+                        this.formData.tanggal_selesai = '';
+                        this.formData.tanggal_mulai_input = '';
+                        this.formData.tanggal_akhir_input = '';
                     }
                     this.isOpen = true;
                 }

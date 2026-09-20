@@ -79,6 +79,62 @@ class GuruController extends Controller
         $chart_nilai_labels = $grafik_nilai ? collect($grafik_nilai)->pluck('mapel_label')->toJson() : '[]';
         $chart_nilai_data = $grafik_nilai ? collect($grafik_nilai)->pluck('rata_rata')->map(fn($v) => round($v, 2))->toJson() : '[]';
 
-        return view('guru.dashboard', compact('guru', 'semesterAktif', 'stats', 'chart_nilai_labels', 'chart_nilai_data'));
+        // Data Progres Kelengkapan Nilai Guru & Notifikasi Batas Waktu
+        $notifikasiDeadline = null;
+        if ($guru && $semesterAktif) {
+            $pembelajaransWithSiswa = Pembelajaran::where('guru_id', $guru->id)
+                ->where('semester_id', $semesterAktif->id)
+                ->with('rombel.siswas')
+                ->get();
+
+            $totalSiswaTarget = 0;
+            $totalNilaiTerisi = 0;
+            $totalDeskripsiTerisi = 0;
+
+            foreach ($pembelajaransWithSiswa as $p) {
+                $rombel = $p->rombel;
+                $siswaCount = $rombel ? $rombel->siswas->count() : 0;
+                $totalSiswaTarget += $siswaCount;
+
+                $siswaIds = $rombel ? $rombel->siswas->pluck('id') : collect();
+                
+                $nTerisi = \App\Models\NilaiRapor::whereIn('siswa_id', $siswaIds)
+                    ->where('mata_pelajaran_id', $p->mata_pelajaran_id)
+                    ->where('semester_id', $semesterAktif->id)
+                    ->count();
+                $totalNilaiTerisi += $nTerisi;
+
+                $dTerisi = \App\Models\DeskripsiRapor::whereHas('nilaiRapor', function ($q) use ($siswaIds, $semesterAktif, $p) {
+                    $q->whereIn('siswa_id', $siswaIds)
+                      ->where('mata_pelajaran_id', $p->mata_pelajaran_id)
+                      ->where('semester_id', $semesterAktif->id);
+                })->count();
+                $totalDeskripsiTerisi += $dTerisi;
+            }
+
+            $persenNilaiGuru = $totalSiswaTarget > 0 ? round(($totalNilaiTerisi / $totalSiswaTarget) * 100) : 0;
+            $isTuntas = ($totalSiswaTarget > 0) && ($persenNilaiGuru >= 100) && ($totalDeskripsiTerisi >= $totalSiswaTarget);
+
+            $deadline = $semesterAktif->deadline_input_nilai;
+            $sisaHari = $semesterAktif->sisa_hari_input;
+            $statusInput = $semesterAktif->status_periode_input;
+
+            $notifikasiDeadline = [
+                'ada_deadline' => $deadline !== null,
+                'deadline' => $deadline,
+                'deadline_teks' => $deadline ? $deadline->translatedFormat('d F Y') : null,
+                'tanggal_mulai_input' => $semesterAktif->tanggal_mulai_input ? $semesterAktif->tanggal_mulai_input->translatedFormat('d F Y') : null,
+                'periode_semester_teks' => $semesterAktif->periode_semester_teks,
+                'sisa_hari' => $sisaHari,
+                'status' => $statusInput,
+                'is_tuntas' => $isTuntas,
+                'total_siswa_target' => $totalSiswaTarget,
+                'total_nilai_terisi' => $totalNilaiTerisi,
+                'persen_terisi' => $persenNilaiGuru,
+                'belum_dinilai' => max(0, $totalSiswaTarget - $totalNilaiTerisi),
+            ];
+        }
+
+        return view('guru.dashboard', compact('guru', 'semesterAktif', 'stats', 'chart_nilai_labels', 'chart_nilai_data', 'notifikasiDeadline'));
     }
 }

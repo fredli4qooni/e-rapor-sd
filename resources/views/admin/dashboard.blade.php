@@ -16,6 +16,27 @@
                 <div>
                     <h3 class="font-bold text-lg border-b border-red-500/50 pb-1 mb-1">Selamat Datang di Halaman Admin, Aplikasi e-Rapor SD</h3>
                     <p class="text-sm text-red-100">Anda sedang Login Sebagai Admin pada {{ $sekolah->nama_sekolah ?? 'SD Contoh Rapor Dapo' }}, Semester {{ $semester_teks ?? '2025/2026 Ganjil' }}</p>
+                    @if($semester_aktif)
+                        <div class="mt-2 flex flex-wrap items-center gap-3 text-xs">
+                            <span class="bg-black/25 px-2.5 py-1 rounded border border-white/20">
+                                📅 Periode: <strong>{{ $semester_aktif->periode_semester_teks }}</strong>
+                            </span>
+                            @if($semester_aktif->deadline_input_nilai)
+                                <span class="bg-black/25 px-2.5 py-1 rounded border border-white/20">
+                                    ⏰ Batas Input Nilai: <strong>{{ $semester_aktif->deadline_input_nilai->translatedFormat('d M Y') }}</strong>
+                                    @if($semester_aktif->sisa_hari_input !== null)
+                                        @if($semester_aktif->sisa_hari_input < 0)
+                                            <span class="text-red-300 font-bold">(Lewat {{ abs($semester_aktif->sisa_hari_input) }} hari)</span>
+                                        @elseif($semester_aktif->sisa_hari_input === 0)
+                                            <span class="text-yellow-300 font-bold">(Hari ini terakhir!)</span>
+                                        @else
+                                            <span class="text-yellow-300 font-bold">(Tersisa {{ $semester_aktif->sisa_hari_input }} hari)</span>
+                                        @endif
+                                    @endif
+                                </span>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
             

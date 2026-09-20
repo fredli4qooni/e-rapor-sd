@@ -430,6 +430,7 @@
                         </svg>
                     </button>
                     <div x-show="open" x-cloak class="space-y-1" style="display: none;">
+                        <a href="{{ route('kepsek.monitoring.kinerja_guru') }}" class="{{ request()->routeIs('kepsek.monitoring.kinerja_guru') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Kinerja Penilaian Guru</a>
                         <a href="{{ route('kepsek.monitoring.guru') }}" class="{{ request()->routeIs('kepsek.monitoring.guru') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Guru</a>
                         <a href="{{ route('kepsek.monitoring.siswa') }}" class="{{ request()->routeIs('kepsek.monitoring.siswa') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Siswa</a>
                         <a href="{{ route('kepsek.monitoring.rombel') }}" class="{{ request()->routeIs('kepsek.monitoring.rombel') ? 'bg-red-800 text-white' : 'text-red-200 hover:text-white hover:bg-red-800' }} group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium">Data Rombel (Kelas)</a>

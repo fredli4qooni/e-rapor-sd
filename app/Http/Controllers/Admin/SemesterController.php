@@ -21,6 +21,10 @@ class SemesterController extends Controller
             'tahun_ajaran' => 'required|string|max:9|regex:/^[0-9]{4}\/[0-9]{4}$/',
             'semester' => 'required|in:1,2',
             'kurikulum' => 'required|string|max:50',
+            'tanggal_mulai' => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date',
+            'tanggal_mulai_input' => 'nullable|date',
+            'tanggal_akhir_input' => 'nullable|date',
             'is_aktif' => 'nullable|boolean'
         ], [
             'tahun_ajaran.regex' => 'Format Tahun Ajaran harus seperti 2024/2025'
@@ -33,6 +37,10 @@ class SemesterController extends Controller
         $semester->tahun_ajaran = $request->tahun_ajaran;
         $semester->semester = $request->semester;
         $semester->kurikulum = $request->kurikulum;
+        $semester->tanggal_mulai = $request->tanggal_mulai;
+        $semester->tanggal_selesai = $request->tanggal_selesai;
+        $semester->tanggal_mulai_input = $request->tanggal_mulai_input;
+        $semester->tanggal_akhir_input = $request->tanggal_akhir_input;
         $semester->is_aktif = $request->has('is_aktif') ? true : false;
         $semester->status_input_nilai = true;
         
@@ -51,7 +59,11 @@ class SemesterController extends Controller
         $request->validate([
             'tahun_ajaran' => 'required|string|max:9|regex:/^[0-9]{4}\/[0-9]{4}$/',
             'semester' => 'required|in:1,2',
-            'kurikulum' => 'required|string|max:50'
+            'kurikulum' => 'required|string|max:50',
+            'tanggal_mulai' => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date',
+            'tanggal_mulai_input' => 'nullable|date',
+            'tanggal_akhir_input' => 'nullable|date',
         ], [
             'tahun_ajaran.regex' => 'Format Tahun Ajaran harus seperti 2024/2025'
         ]);
@@ -60,6 +72,10 @@ class SemesterController extends Controller
         $semester->tahun_ajaran = $request->tahun_ajaran;
         $semester->semester = $request->semester;
         $semester->kurikulum = $request->kurikulum;
+        $semester->tanggal_mulai = $request->tanggal_mulai;
+        $semester->tanggal_selesai = $request->tanggal_selesai;
+        $semester->tanggal_mulai_input = $request->tanggal_mulai_input;
+        $semester->tanggal_akhir_input = $request->tanggal_akhir_input;
         $semester->save();
 
         return redirect()->route('admin.semester.index')->with('success', 'Data semester berhasil diperbarui.');

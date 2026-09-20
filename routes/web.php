@@ -362,6 +362,7 @@ Route::middleware(['auth', 'can:kepsek'])->prefix('kepsek')->name('kepsek.')->gr
     Route::get('/monitoring/guru', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'guru'])->name('monitoring.guru');
     Route::get('/monitoring/siswa', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'siswa'])->name('monitoring.siswa');
     Route::get('/monitoring/rombel', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'rombel'])->name('monitoring.rombel');
+    Route::get('/monitoring/kinerja-guru', [\App\Http\Controllers\Kepsek\MonitoringController::class, 'kinerjaGuru'])->name('monitoring.kinerja_guru');
 
     // Laporan
     Route::prefix('laporan')->name('laporan.')->group(function () {
